@@ -8,7 +8,8 @@
         xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
- <changeSet author="sam" id="alter-table2">
+ <changeSet author="sam" id="create-table">
+  <tagDatabase tag="create-table-"/>
   <sqlFile dbms="oracle"
            endDelimiter=";"
            path="sta_role.sql"
