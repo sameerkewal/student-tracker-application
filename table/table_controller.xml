@@ -8,5 +8,5 @@
         xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-  <include file="table/sta_role.sql"/>
+  <include file="sta_role.sql"/>
 </databaseChangeLog> 
