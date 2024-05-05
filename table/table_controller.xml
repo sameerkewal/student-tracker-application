@@ -17,10 +17,12 @@
            stripComments="false"
   />
   <rollback>
-   <sqlFile path="rollback_sta_role.sql"
+   <sqlFile dbms="oracle"
+            endDelimiter=";"
+            path="drop_sta_role.sql"
             relativeToChangelogFile="true"
             splitStatements="true"
-            stripComments="true"
+            stripComments="false"
    />
   </rollback>
  </changeSet>
