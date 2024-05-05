@@ -10,7 +10,7 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
  <changeSet author="sam" id="add-table">
   <sqlFile dbms="oracle"
-           endDelimitier=";"
+           endDelimiter=";"
            path="sta_role.sql"
            relativeToChangelogFile="true"
            splitStatements="true"
