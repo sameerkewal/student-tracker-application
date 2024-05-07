@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+-->
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="sam" id="create-initial-tables" failOnError="true">
+        <sqlFile dbms="oracle"
+                 endDelimiter=";"
+                 path="../sta_role.tab"
+                 relativeToChangelogFile="true"
+                 splitStatements="true"
+                 stripComments="false"
+        />
+        <sqlFile dbms="oracle"
+                 endDelimiter=";"
+                 path="../sta_announcement.tab"
+                 relativeToChangelogFile="true"
+                 splitStatements="true"
+                 stripComments="false"
+        />
+        <sqlFile dbms="oracle"
+                 endDelimiter=";"
+                 path="../sta_caretaker.tab"
+                 relativeToChangelogFile="true"
+                 splitStatements="true"
+                 stripComments="false"
+        />
+        <sqlFile dbms="oracle"
+                 endDelimiter=";"
+                 path="../sta_grade.tab"
+                 relativeToChangelogFile="true"
+                 splitStatements="true"
+                 stripComments="false"
+        />
+        <sqlFile dbms="oracle"
+                 endDelimiter=";"
+                 path="../sta_semester.tab"
+                 relativeToChangelogFile="true"
+                 splitStatements="true"
+                 stripComments="false"
+        />
+        <sqlFile dbms="oracle"
+                 endDelimiter=";"
+                 path="../sta_student.tab"
+                 relativeToChangelogFile="true"
+                 splitStatements="true"
+                 stripComments="false"
+        />
+        <sqlFile dbms="oracle"
+                 endDelimiter=";"
+                 path="../sta_teacher.tab"
+                 relativeToChangelogFile="true"
+                 splitStatements="true"
+                 stripComments="false"
+        />
+        <rollback>
+            <sqlFile dbms="oracle"
+                     endDelimiter=";"
+                     path="../drop_tables.sql"
+                     relativeToChangelogFile="true"
+                     splitStatements="true"
+                     stripComments="false"
+            />
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
