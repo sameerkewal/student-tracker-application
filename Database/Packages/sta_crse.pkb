@@ -54,5 +54,15 @@ is
 
         end if;
     end p_upsert_course;
+
+    procedure p_delete_course( pi_id sta_course.id%type )
+    is
+    begin
+        delete from sta_course_grade
+        where crse_id = pi_id;
+
+        delete from sta_course
+        where id = pi_id;
+    end p_delete_course;
     end sta_crse;
 

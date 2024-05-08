@@ -1,4 +1,4 @@
-create or replace package body insum_error_handler_api is
+create or replace package body sta_error_handler is
 
 gc_developer_todo_message constant varchar2(100) := 'DEVELOPER TODO: Provide better message in APEX Shared Components Text Messages for ';
 
@@ -14,7 +14,7 @@ begin
    apex_lang.create_message
       (p_application_id  => v('APP_ID'), /* This could be a common text library application */
        p_name            => p_constraint_name,
-       p_language        => nvl(apex_util.get_preference('FSP_LANGUAGE_PREFERENCE'), 'en'),
+       p_language        => nvl(apex_util.get_preference('FSP_LANGUAGE_PREFERENCE'), 'nl'),
        p_message_text    => l_message 
        );
        commit;
@@ -131,4 +131,4 @@ begin
     return l_result;
 end error_handler;
 
-end insum_error_handler_api;
+end sta_error_handler;
