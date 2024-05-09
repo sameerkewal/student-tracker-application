@@ -29,6 +29,7 @@ is
                            , pi_phone_number2 sta_user.phone_number2%type
                            , pi_email         sta_user.email%type 
                            , pi_password      sta_user.password%type
+                           , pi_rle_id        sta_role.id%type
                           )
       is
       begin
@@ -44,9 +45,11 @@ is
                             , pi_phone_number1 sta_user.phone_number1%type  
                             , pi_phone_number2 sta_user.phone_number2%type  
                             , pi_ctkr_id       sta_user.ctkr_id%type  
-                            , pi_remarks       sta_user.remarks%type  
+                            , pi_remarks       sta_user.remarks%type 
+                            , pi_rle_id        sta_role.id%type
                             )
       is
+        l_usr_id sta_user.id%type;
       begin
         if pi_id is null then
           insert into sta_user
@@ -71,7 +74,19 @@ is
           , pi_phone_number2
           , pi_ctkr_id
           , pi_remarks
-          );
+          )
+          returning id into l_usr_id;
+
+         insert into sta_user_role
+         ( rle_id
+         , usr_id
+         )
+         values
+         ( pi_rle_id
+         , l_usr_id
+         );
+
+
         else
           update sta_user
           set first_name    = pi_first_name
@@ -95,10 +110,54 @@ is
                              , pi_phone_number1 sta_user.phone_number1%type  
                              , pi_phone_number2 sta_user.phone_number2%type 
                              , pi_remarks       sta_user.remarks%type 
+                             , pi_rle_id        sta_role.id%type
                              )
       is
+        l_usr_id sta_user.id%type;
       begin
-        null;
+        if pi_id is null then
+          insert into sta_user
+          ( first_name
+          , last_name
+          , address1
+          , address2
+          , phone_number1
+          , phone_number2
+          , remarks
+          )
+          values
+          (
+            pi_first_name
+          , pi_last_name
+          , pi_address1
+          , pi_address2
+          , pi_phone_number1
+          , pi_phone_number2
+          , pi_remarks
+          )
+          returning id into l_usr_id;
+
+        insert into sta_user_role
+        ( rle_id
+        , usr_id
+        )
+        values
+        ( pi_rle_id
+        , l_usr_id
+        );
+
+        else
+          update sta_user
+          set first_name    = pi_first_name
+            , last_name     = pi_last_name
+            , address1      = pi_address1
+            , address2      = pi_address2
+            , phone_number1 = pi_phone_number1
+            , phone_number2 = pi_phone_number2
+            , remarks       = pi_remarks
+          where id = pi_id;
+
+        end if;
       end p_upsert_ctkr;
 
 
@@ -114,10 +173,10 @@ is
                           , pi_password      sta_user.password%type
                           , pi_ctkr_id       sta_user.ctkr_id%type
                           , pi_remarks       sta_user.remarks%type
-                          , pi_role          sta_role.id%type
+                          , pi_rle_id        sta_role.id%type
                           )
     is
-      l_rle_name sta_role.name%type := lower(sta_rle.f_get_rle(pi_role).name);
+      l_rle_name sta_role.name%type := lower(sta_rle.f_get_rle(pi_rle_id).name);
     begin
         if l_rle_name = 'student'
         then
@@ -130,10 +189,12 @@ is
                         , pi_phone_number1 => pi_phone_number1 
                         , pi_phone_number2 => pi_phone_number2 
                         , pi_ctkr_id       => pi_ctkr_id      
-                        , pi_remarks       => pi_remarks      
+                        , pi_remarks       => pi_remarks
+                        , pi_rle_id        => pi_rle_id      
                         );
         elsif l_rle_name = 'teacher'
         then
+        dbms_output.put_line('wow');
           p_upsert_tchr(  pi_id             => pi_id            
                         , pi_first_name     => pi_first_name    
                         , pi_last_name      => pi_last_name     
@@ -143,7 +204,8 @@ is
                         , pi_phone_number1  => pi_phone_number1 
                         , pi_phone_number2  => pi_phone_number2 
                         , pi_email          => pi_email         
-                        , pi_password       => pi_password      
+                        , pi_password       => pi_password
+                        , pi_rle_id         => pi_rle_id          
                         );
         elsif l_rle_name = 'caretaker'
         then
@@ -155,6 +217,7 @@ is
                         , pi_phone_number1 => pi_phone_number1 
                         , pi_phone_number2 => pi_phone_number2 
                         , pi_remarks       => pi_remarks       
+                        , pi_rle_id        => pi_rle_id      
                         );
         end if;
     end p_upsert_usr;

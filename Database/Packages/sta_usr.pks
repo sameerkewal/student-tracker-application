@@ -21,6 +21,6 @@ is
                           , pi_password      sta_user.password%type
                           , pi_ctkr_id       sta_user.ctkr_id%type
                           , pi_remarks       sta_user.remarks%type
-                          , pi_role          sta_role.id%type
+                          , pi_rle_id          sta_role.id%type
                         );
     end sta_usr;

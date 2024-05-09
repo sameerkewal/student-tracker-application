@@ -24,11 +24,9 @@ is
         l_crse_id sta_course.id%type;
         l_grades  apex_t_varchar2;
     begin
-
+    
         l_grades := apex_string.split(pi_grades, ':');
         
-
-
         if pi_id is null then
             insert into sta_course (name, description)
             values (pi_name, pi_description)
