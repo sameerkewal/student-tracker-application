@@ -45,7 +45,8 @@ is
                             , pi_phone_number1 sta_user.phone_number1%type  
                             , pi_phone_number2 sta_user.phone_number2%type  
                             , pi_ctkr_id       sta_user.ctkr_id%type  
-                            , pi_remarks       sta_user.remarks%type 
+                            , pi_remarks       sta_user.remarks%type
+                            , pi_class         sta_user.clss_id%type
                             , pi_rle_id        sta_role.id%type
                             )
       is
@@ -176,9 +177,8 @@ is
                           , pi_rle_id        sta_role.id%type
                           )
     is
-      l_rle_name sta_role.name%type := lower(sta_rle.f_get_rle(pi_rle_id).name);
     begin
-        if l_rle_name = 'student'
+        if pi_rle_id = gc_sdnt_rle
         then
           p_upsert_stdnt( pi_id            => pi_id           
                         , pi_first_name    => pi_first_name     
@@ -192,9 +192,8 @@ is
                         , pi_remarks       => pi_remarks
                         , pi_rle_id        => pi_rle_id      
                         );
-        elsif l_rle_name = 'teacher'
+        elsif pi_rle_id = gc_tchr_rle
         then
-        dbms_output.put_line('wow');
           p_upsert_tchr(  pi_id             => pi_id            
                         , pi_first_name     => pi_first_name    
                         , pi_last_name      => pi_last_name     
@@ -207,7 +206,7 @@ is
                         , pi_password       => pi_password
                         , pi_rle_id         => pi_rle_id          
                         );
-        elsif l_rle_name = 'caretaker'
+        elsif pi_rle_id = gc_ctkr_rle
         then
           p_upsert_ctkr(  pi_id            => pi_id           
                         , pi_first_name    => pi_first_name   
@@ -221,5 +220,12 @@ is
                         );
         end if;
     end p_upsert_usr;
+
+    procedure p_delete_usr(pi_id sta_user.id%type)
+    is
+    begin
+      update sta_user set deleted_flg = true;
+    end p_delete_usr;
+
 
     end sta_usr;

@@ -20,6 +20,10 @@ select  *
 from    sta_role
 ;
 
+select  *
+FROM    STA_USER
+;
+
 declare
 begin
 commit;

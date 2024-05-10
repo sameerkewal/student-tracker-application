@@ -8,17 +8,20 @@ create table sta_user
     address2        varchar2(100),
     phone_number1   varchar2(20),
     phone_number2   varchar2(20),
+    clss_id         number,
     ctkr_id         number,
     remarks         varchar2(4000),
+    email           varchar2(320),
+    password        varchar2(40),
+    deleted_flg     boolean default false not null,
     constraint sta_usr_pk primary key(id),
     constraint sta_usr_ctkr_fk foreign key (ctkr_id) references sta_caretaker
-);
+)
+;
 
 
-alter table sta_user add email varchar2(320);
-alter table sta_user add password varchar2(40);
-
-alter table sta_user drop column password;
+alter table sta_user add clss_id number;
+alter table sta_user add constraint sta_usr_clss_fk foreign key(clss_id)references sta_class;
 
 
 create unique index sta_usr_ix1 on sta_user (lower("FIRST_NAME"), lower("LAST_NAME"), lower("ADDRESS1"));

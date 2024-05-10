@@ -14,3 +14,5 @@ create table sta_teacher
 );
 
 create unique index sta_tchr_ix1 on sta_teacher (LOWER("FIRST_NAME"), LOWER("LAST_NAME"), LOWER("ADDRESS1"));
+
+drop table sta_teacher;
