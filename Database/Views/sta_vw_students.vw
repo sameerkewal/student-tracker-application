@@ -1,0 +1,1 @@
+--This view will be used to display all necessary columns for students.

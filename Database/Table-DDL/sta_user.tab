@@ -15,16 +15,25 @@ create table sta_user
     password        varchar2(40),
     deleted_flg     boolean default false not null,
     constraint sta_usr_pk primary key(id),
-    constraint sta_usr_ctkr_fk foreign key (ctkr_id) references sta_caretaker
+    constraint sta_usr_usr_fk foreign key (usr_id) references sta_user
 )
 ;
 
 
+alter table sta_user add constraint sta_usr_clss_fk foreign key(clss_id)references sta_class;
+
 alter table sta_user add clss_id number;
 alter table sta_user add constraint sta_usr_clss_fk foreign key(clss_id)references sta_class;
+
+alter table sta_user drop column usr_id;
+
+
+alter table sta_user add ctkr_id number;
+alter table sta_user add constraint sta_usr_usr_fk foreign key(ctkr_id)references sta_user;
+
+
 
 
 create unique index sta_usr_ix1 on sta_user (lower("FIRST_NAME"), lower("LAST_NAME"), lower("ADDRESS1"));
 create unique index sta_usr_ix2 on sta_user (lower("EMAIL"));
 alter table sta_user modify phone_number1 varchar2(20) null;
-drop table sta_user;

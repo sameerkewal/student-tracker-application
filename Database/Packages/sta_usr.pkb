@@ -22,7 +22,7 @@ is
     procedure p_upsert_tchr( pi_id           sta_user.id%type  
                            , pi_first_name    sta_user.first_name%type     
                            , pi_last_name     sta_user.last_name%type 
-                           , pi_date_of_birth sta_user.date_of_birth%type 
+                          --  , pi_date_of_birth sta_user.date_of_birth%type ??? not sure
                            , pi_address1      sta_user.address1%type 
                            , pi_address2      sta_user.address2%type 
                            , pi_phone_number1 sta_user.phone_number1%type  
@@ -32,8 +32,57 @@ is
                            , pi_rle_id        sta_role.id%type
                           )
       is
+        l_tchr_id sta_user.id%type;
       begin
-        null;
+        if pi_id is null then
+          insert into sta_user
+          ( first_name
+          , last_name
+          -- , date_of_birth
+          , address1
+          , address2
+          , phone_number1
+          , phone_number2
+          , email
+          , password
+          )
+          values
+          (
+            pi_first_name
+          , pi_last_name
+          -- , pi_date_of_birth
+          , pi_address1
+          , pi_address2
+          , pi_phone_number1
+          , pi_phone_number2
+          , pi_email
+          , pi_password
+          )
+          returning id into l_tchr_id;
+
+          insert into sta_user_role
+          ( rle_id
+          , usr_id
+          )
+          values
+          (
+            pi_rle_id
+          , l_tchr_id
+          );
+
+        else
+          update sta_user
+          set first_name    = pi_first_name
+            , last_name     = pi_last_name
+            -- , date_of_birth = pi_date_of_birth
+            , address1      = pi_address1
+            , address2      = pi_address2
+            , phone_number1 = pi_phone_number1
+            , phone_number2 = pi_phone_number2
+            , email         = pi_email
+            , password      = pi_password
+          where id = pi_id;
+        end if;
       end p_upsert_tchr;
 
     procedure p_upsert_stdnt( pi_id            sta_user.id%type
@@ -46,7 +95,7 @@ is
                             , pi_phone_number2 sta_user.phone_number2%type  
                             , pi_ctkr_id       sta_user.ctkr_id%type  
                             , pi_remarks       sta_user.remarks%type
-                            , pi_class         sta_user.clss_id%type
+                            , pi_clss_id       sta_user.clss_id%type
                             , pi_rle_id        sta_role.id%type
                             )
       is
@@ -62,6 +111,7 @@ is
           , phone_number1
           , phone_number2
           , ctkr_id
+          , clss_id
           , remarks
           )
           values
@@ -74,6 +124,7 @@ is
           , pi_phone_number1
           , pi_phone_number2
           , pi_ctkr_id
+          , pi_clss_id
           , pi_remarks
           )
           returning id into l_usr_id;
@@ -166,7 +217,7 @@ is
                           , pi_first_name    sta_user.first_name%type
                           , pi_last_name     sta_user.last_name%type
                           , pi_date_of_birth sta_user.date_of_birth%type
-                          , pi_address1      sta_user.address1%type
+                          , pi_address1      sta_user.address1%type 
                           , pi_address2      sta_user.address2%type
                           , pi_phone_number1 sta_user.phone_number1%type
                           , pi_phone_number2 sta_user.phone_number2%type
@@ -174,6 +225,7 @@ is
                           , pi_password      sta_user.password%type
                           , pi_ctkr_id       sta_user.ctkr_id%type
                           , pi_remarks       sta_user.remarks%type
+                          , pi_clss_id       sta_user.clss_id%type
                           , pi_rle_id        sta_role.id%type
                           )
     is
@@ -190,6 +242,7 @@ is
                         , pi_phone_number2 => pi_phone_number2 
                         , pi_ctkr_id       => pi_ctkr_id      
                         , pi_remarks       => pi_remarks
+                        , pi_clss_id       => pi_clss_id
                         , pi_rle_id        => pi_rle_id      
                         );
         elsif pi_rle_id = gc_tchr_rle
@@ -197,7 +250,7 @@ is
           p_upsert_tchr(  pi_id             => pi_id            
                         , pi_first_name     => pi_first_name    
                         , pi_last_name      => pi_last_name     
-                        , pi_date_of_birth  => pi_date_of_birth 
+                        -- , pi_date_of_birth  => pi_date_of_birth 
                         , pi_address1       => pi_address1      
                         , pi_address2       => pi_address2      
                         , pi_phone_number1  => pi_phone_number1 
