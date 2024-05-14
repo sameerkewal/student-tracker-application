@@ -15,10 +15,14 @@ insert into sta_role(name)values('Teacher');
 insert into sta_role(name)values('Student');
 insert into sta_role(name)values('Caretaker');
 insert into sta_role(name)values('Admin');
+insert into sta_role(name)values('Super Admin');
 
 select  *
 from    sta_role
 ;
+
+select sta_rle.f_get_rle_id('teacher');
+commit;
 
 select  *
 FROM    STA_USER
