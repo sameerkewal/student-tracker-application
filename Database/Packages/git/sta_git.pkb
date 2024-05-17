@@ -10,10 +10,6 @@ is
     lt_parm_values     apex_application_global.VC_ARR2; 
     l_names            varchar2(4000);
 BEGIN
-    -- lt_parm_names(1)  := 'Authorization'; 
-    -- lt_parm_values(1) := 'token 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'; -- Replace 'YOUR_TOKEN' with your GitHub Personal Access Token
-    -- lt_parm_names(2)  := 'User-Agent'; 
-    -- lt_parm_values(2) := 'sameerkewal'; 
     
     apex_web_service.set_request_headers (
         p_name_01  => 'User-Agent', 
