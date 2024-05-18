@@ -13,6 +13,10 @@ as
     ,       usr.remarks
     ,       usr.clss_id
     ,       usr.ctkr_id
+    ,       usr.gender
+    ,       usr.registration_year
+    ,       usr.deregistration_year
+    ,       usr.origin_school
     from    sta_user usr
     join    sta_user_role usr_rle on usr.id = usr_rle.usr_id
     join    sta_role rle on usr_rle.rle_id = rle.id

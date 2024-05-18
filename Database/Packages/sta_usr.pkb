@@ -22,7 +22,6 @@ is
     procedure p_upsert_tchr( pi_id            sta_user.id%type  
                            , pi_first_name    sta_user.first_name%type     
                            , pi_last_name     sta_user.last_name%type 
-                          --  , pi_date_of_birth sta_user.date_of_birth%type ??? not sure
                            , pi_address1      sta_user.address1%type 
                            , pi_address2      sta_user.address2%type 
                            , pi_phone_number1 sta_user.phone_number1%type  
@@ -115,17 +114,21 @@ is
         end if;
       end p_upsert_tchr;
 
-    procedure p_upsert_stdnt( pi_id            sta_user.id%type
-                            , pi_first_name    sta_user.first_name%type 
-                            , pi_last_name     sta_user.last_name%type  
-                            , pi_date_of_birth sta_user.date_of_birth%type  
-                            , pi_address1      sta_user.address1%type  
-                            , pi_address2      sta_user.address2%type  
-                            , pi_phone_number1 sta_user.phone_number1%type  
-                            , pi_ctkr_id       sta_user.ctkr_id%type
-                            , pi_remarks       sta_user.remarks%type
-                            , pi_clss_id       sta_user.clss_id%type
-                            , pi_rle_id        sta_role.id%type
+    procedure p_upsert_stdnt( pi_id                  sta_user.id%type
+                            , pi_first_name          sta_user.first_name%type 
+                            , pi_last_name           sta_user.last_name%type  
+                            , pi_date_of_birth       sta_user.date_of_birth%type  
+                            , pi_address1            sta_user.address1%type  
+                            , pi_address2            sta_user.address2%type  
+                            , pi_phone_number1       sta_user.phone_number1%type  
+                            , pi_ctkr_id             sta_user.ctkr_id%type
+                            , pi_remarks             sta_user.remarks%type
+                            , pi_clss_id             sta_user.clss_id%type
+                            , pi_gender              sta_user.gender%type
+                            , pi_registration_year   sta_user.registration_year%type
+                            , pi_deregistration_year sta_user.deregistration_year%type
+                            , pi_origin_school       sta_user.origin_school%type
+                            , pi_rle_id              sta_role.id%type
                             )
       is
         l_usr_id sta_user.id%type;
@@ -141,6 +144,10 @@ is
           , ctkr_id
           , clss_id
           , remarks
+          , gender
+          , registration_year
+          , deregistration_year
+          , origin_school
           )
           values
           (
@@ -153,6 +160,10 @@ is
           , pi_ctkr_id
           , pi_clss_id
           , pi_remarks
+          , pi_gender
+          , pi_registration_year
+          , pi_deregistration_year
+          , pi_origin_school
           )
           returning id into l_usr_id;
 
@@ -168,14 +179,18 @@ is
 
         else
           update sta_user
-          set first_name    = pi_first_name
-            , last_name     = pi_last_name
-            , date_of_birth = pi_date_of_birth
-            , address1      = pi_address1
-            , address2      = pi_address2
-            , phone_number1 = pi_phone_number1
-            , ctkr_id       = pi_ctkr_id
-            , remarks       = pi_remarks
+          set first_name          = pi_first_name
+            , last_name           = pi_last_name
+            , date_of_birth       = pi_date_of_birth
+            , address1            = pi_address1
+            , address2            = pi_address2
+            , phone_number1       = pi_phone_number1
+            , ctkr_id             = pi_ctkr_id
+            , remarks             = pi_remarks
+            , gender              = pi_gender 
+            , registration_year   = pi_registration_year
+            , deregistration_year = pi_deregistration_year
+            , origin_school       = pi_origin_school
           where id = pi_id;
         end if;
       end p_upsert_stdnt;
@@ -187,7 +202,6 @@ is
                              , pi_address2      sta_user.address2%type
                              , pi_phone_number1 sta_user.phone_number1%type  
                              , pi_phone_number2 sta_user.phone_number2%type 
-                             , pi_remarks       sta_user.remarks%type 
                              , pi_rle_id        sta_role.id%type
                              )
       is
@@ -201,7 +215,6 @@ is
           , address2
           , phone_number1
           , phone_number2
-          , remarks
           )
           values
           (
@@ -211,7 +224,6 @@ is
           , pi_address2
           , pi_phone_number1
           , pi_phone_number2
-          , pi_remarks
           )
           returning id into l_usr_id;
 
@@ -232,89 +244,30 @@ is
             , address2      = pi_address2
             , phone_number1 = pi_phone_number1
             , phone_number2 = pi_phone_number2
-            , remarks       = pi_remarks
           where id = pi_id;
 
         end if;
       end p_upsert_ctkr;
 
 
-    procedure p_upsert_usr( pi_id            sta_user.id%type
-                          , pi_first_name    sta_user.first_name%type
-                          , pi_last_name     sta_user.last_name%type
-                          , pi_date_of_birth sta_user.date_of_birth%type
-                          , pi_address1      sta_user.address1%type 
-                          , pi_address2      sta_user.address2%type
-                          , pi_phone_number1 sta_user.phone_number1%type
-                          , pi_phone_number2 sta_user.phone_number2%type
-                          , pi_email         sta_user.email%type
-                          , pi_password      sta_user.password%type
-                          , pi_ctkr_id       sta_user.ctkr_id%type
-                          , pi_remarks       sta_user.remarks%type
-                          , pi_clss_id       sta_user.clss_id%type
-                          , pi_rle_id        sta_role.id%type
-                          )
-    is
-    begin
-        if pi_rle_id = gc_sdnt_rle
-        then
-          -- p_upsert_stdnt( pi_id            => pi_id           
-          --               , pi_first_name    => pi_first_name     
-          --               , pi_last_name     => pi_last_name     
-          --               , pi_date_of_birth => pi_date_of_birth 
-          --               , pi_address1      => pi_address1      
-          --               , pi_address2      => pi_address2      
-          --               , pi_phone_number1 => pi_phone_number1 
-          --               , pi_phone_number2 => pi_phone_number2 
-          --               , pi_ctkr_id       => pi_ctkr_id      
-          --               , pi_remarks       => pi_remarks
-          --               , pi_clss_id       => pi_clss_id
-          --               , pi_rle_id        => pi_rle_id      
-          --               );
-          null;
-        elsif pi_rle_id = gc_tchr_rle
-        then
-          -- p_upsert_tchr(  pi_id             => pi_id            
-          --               , pi_first_name     => pi_first_name    
-          --               , pi_last_name      => pi_last_name     
-          --               -- , pi_date_of_birth  => pi_date_of_birth 
-          --               , pi_address1       => pi_address1      
-          --               , pi_address2       => pi_address2      
-          --               , pi_phone_number1  => pi_phone_number1 
-          --               , pi_phone_number2  => pi_phone_number2 
-          --               , pi_email          => pi_email         
-          --               , pi_password       => pi_password
-          --               , pi_rle_id         => pi_rle_id          
-          --               );
-          null;
-        elsif pi_rle_id = gc_ctkr_rle
-        then
-          -- p_upsert_ctkr(  pi_id            => pi_id           
-          --               , pi_first_name    => pi_first_name   
-          --               , pi_last_name     => pi_last_name    
-          --               , pi_address1      => pi_address1     
-          --               , pi_address2      => pi_address2     
-          --               , pi_phone_number1 => pi_phone_number1 
-          --               , pi_phone_number2 => pi_phone_number2 
-          --               , pi_remarks       => pi_remarks       
-          --               , pi_rle_id        => pi_rle_id      
-          --               );
-          null;
-        end if;
-    end p_upsert_usr;
+      -- function f_get_user_role(pi_usr_id)
 
-    procedure p_delete_usr(pi_id sta_user.id%type)
-    is
-    begin
-      update sta_user set deleted_flg = true
-      where  id = pi_id;
-    end p_delete_usr;
 
+    
     procedure hard_delete_usr(pi_id sta_user.id%type)
     is
     begin
       null;
-    end;   
+    end;
+    
+    procedure p_delete_usr(pi_id sta_user.id%type)
+    is
+    begin
+      update sta_user
+      set deleted_flg = true
+      where id = pi_id;
+    end;
+
 
 
 
