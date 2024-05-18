@@ -6,6 +6,9 @@ is
     gc_ctkr_rle constant  sta_role.id%type := sta_rle.f_get_rle_id('caretaker');
     gc_admin_rle constant sta_role.id%type := sta_rle.f_get_rle_id('admin');
 
+    type t_rle_rec is record( rle_id sta_user_role.rle_id%type);
+    type r_rle_tab is table of t_rle_rec;
+
     function f_get_usr(pi_id sta_user.id%type) return sta_user%rowtype;
     procedure p_delete_usr(pi_id sta_user.id%type);
 
@@ -52,5 +55,7 @@ is
                              );
 
     procedure hard_delete_usr(pi_id sta_user.id%type);   
+    function f_get_user_role(pi_usr_id sta_user.id%type) return r_rle_tab pipelined;
+
 
     end sta_usr;

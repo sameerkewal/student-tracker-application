@@ -250,7 +250,30 @@ is
       end p_upsert_ctkr;
 
 
-      -- function f_get_user_role(pi_usr_id)
+    function f_get_user_role(pi_usr_id sta_user.id%type) return r_rle_tab pipelined
+      is
+        cursor c_get_usr_rle(b_usr_id sta_user.id%type)
+        is
+          select  usr_rle.rle_id
+          from    sta_user      usr
+          join    sta_user_role usr_rle on usr_rle.usr_id = usr.id
+          where   usr.id = b_usr_id;
+        
+        l_result_rec t_rle_rec;
+      begin 
+      open c_get_usr_rle(b_usr_id => pi_usr_id);
+        loop
+          fetch c_get_usr_rle into l_result_rec;
+          exit when c_get_usr_rle%notfound;
+          --
+          pipe row ( l_result_rec );
+        end loop;
+        close  c_get_usr_rle;
+      exception
+        when others then
+          close c_get_usr_rle;
+          raise;
+      end f_get_user_role;
 
 
     
