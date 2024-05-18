@@ -277,10 +277,41 @@ is
 
 
     
-    procedure hard_delete_usr(pi_id sta_user.id%type)
+    procedure p_hard_delete_tchr(pi_id sta_user.id%type)
     is
+      cursor c_tchr_chk(b_id sta_user.id%type)
+      is
+        select 1 from sta_vw_teacher
+        where  id = b_id
+        ;
     begin
-      null;
+      open c_tchr_chk(b_id => pi_id);
+      if c_tchr_chk%notfound
+      then
+      close c_tchr_chk;
+        raise_application_error(-20001, 'Teacher not found');
+      end if;
+
+      --fk
+      delete from sta_course_teacher
+      where  usr_id = pi_id
+      ;
+
+      -- fk
+      delete from sta_user_role
+      where  usr_id = pi_id
+      ;
+
+      -- so that fk constraint does not fire(this column is obv nullable, a class doesnt need a teacher to exist ig)
+      update sta_class
+      set    usr_id = null
+      where  usr_id = pi_id
+      ;
+
+      delete from sta_user
+      where  id = pi_id
+      ;
+
     end;
     
     procedure p_delete_usr(pi_id sta_user.id%type)

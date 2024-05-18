@@ -54,7 +54,7 @@ is
                              , pi_rle_id        sta_role.id%type
                              );
 
-    procedure hard_delete_usr(pi_id sta_user.id%type);   
+    procedure p_hard_delete_tchr(pi_id sta_user.id%type);   
     function f_get_user_role(pi_usr_id sta_user.id%type) return r_rle_tab pipelined;
 
 
