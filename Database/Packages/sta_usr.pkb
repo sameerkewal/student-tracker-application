@@ -32,14 +32,17 @@ is
                            , pi_courses       varchar2
                           )
       is
-        l_tchr_id sta_user.id%type := pi_id;        
-        l_courses apex_t_varchar2;
-
+        l_tchr_id  sta_user.id%type := pi_id;        
+        l_courses  apex_t_varchar2;
+        l_salt     varchar2(64);
       begin
         -- The courses come in a colon seperated string from the checkbox group so we seperate them
         l_courses := apex_string.split(pi_courses, ':');
 
         if l_tchr_id is null then
+          -- Generate salt
+          l_salt := sta_auth.f_generate_salt;
+
           insert into sta_user
           ( first_name
           , last_name
@@ -50,7 +53,7 @@ is
           , phone_number2
           , email
           , password
-          )
+          , salt)
           values
           (
             pi_first_name
@@ -61,7 +64,8 @@ is
           , pi_phone_number1
           , pi_phone_number2
           , pi_email
-          , pi_password
+          , sta_auth.f_hash_password(pi_password => trim(pi_password), pi_salt => l_salt)
+          , l_salt
           )
           returning id into l_tchr_id;
           --
@@ -86,18 +90,26 @@ is
 
         else
         --
-        -- password check
+        -- generate salt
         --
+          if pi_password is not null then
+            l_salt := sta_auth.f_generate_salt;
+          end if;
+          
           update sta_user
           set first_name    = pi_first_name
             , last_name     = pi_last_name
-            -- , date_of_birth = pi_date_of_birth
             , address1      = pi_address1
             , address2      = pi_address2
             , phone_number1 = pi_phone_number1
             , phone_number2 = pi_phone_number2
             , email         = pi_email
-            , password      = case when pi_password is null then password else pi_password end
+            , password      = case when pi_password is null 
+                                then password else sta_auth.f_hash_password(pi_password => trim(pi_password), pi_salt => l_salt)
+                              end
+            , salt          = case when pi_password is null 
+                                then salt else l_salt
+                              end
           where id = l_tchr_id;
             --
             -- Clear the courses from the coupled teacher
@@ -308,19 +320,21 @@ is
       where  usr_id = pi_id
       ;
 
+      -- Actual Delete 
       delete from sta_user
       where  id = pi_id
       ;
 
-    end;
+    end p_hard_delete_tchr;
     
-    procedure p_delete_usr(pi_id sta_user.id%type)
+
+    procedure p_soft_delete_usr(pi_id sta_user.id%type)
     is
     begin
       update sta_user
       set deleted_flg = true
       where id = pi_id;
-    end;
+    end p_soft_delete_usr;
 
 
 

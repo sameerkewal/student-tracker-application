@@ -12,7 +12,8 @@ create table sta_user
     phone_number2       varchar2(20),
     remarks             varchar2(4000),
     email               varchar2(320),
-    password            varchar2(40),
+    password            varchar2(64),
+    salt                varchar2(64),
     deleted_flg         boolean default false not null,
     clss_id             number
         constraint sta_usr_clss_fk
@@ -28,4 +29,5 @@ create table sta_user
     origin_school       varchar2(80)
 )
 /
+
 
