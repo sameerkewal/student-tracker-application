@@ -6,7 +6,7 @@ is
                                       );
   
   --Password item on Page 14
-  g_page14_pw_item constant varchar2(100) := 'P14_WACHTWOORD';
+  g_page14_pw_item               constant varchar2(100) := 'P14_WACHTWOORD';
   c_inline_with_field            constant varchar2(40):='INLINE_WITH_FIELD';
   c_inline_with_field_and_notif  constant varchar2(40):='INLINE_WITH_FIELD_AND_NOTIFICATION';
   c_inline_in_notification       constant varchar2(40):='INLINE_IN_NOTIFICATION';
@@ -177,6 +177,88 @@ end f_password_special_chk;
     -- return true if all checks are valid
     return l_valid_length and l_valid_capital and l_valid_letter and l_valid_digital and l_valid_special;
   end f_password_chk;
+
+
+  function f_is_component_authorized ( p_application_id in number
+                                     , pi_apex_page_id  in number
+                                     , p_component_type in varchar2
+                                     , p_component_id   in number
+                                     , pi_apex_component_name in sta_authorization.apex_component_name%type
+                                     ) return boolean
+  is
+  begin
+    null;
+  end f_is_component_authorized;
+
+  function f_generate_authorization_name( pi_apex_component_type varchar2
+                                        , pi_apex_component_name sta_authorization.apex_component_name%type
+                                        , pi_apex_page           sta_authorization.apex_page%type
+                                        )return sta_authorization.name%type
+  is
+    l_generated_name sta_authorization.name%type;
+    cursor c_get_navigation_name(b_entry_text apex_application_list_entries.entry_text%type)
+    is
+     select case
+         when parent_entry_text is null then
+             'Hoofdmenu: ' || entry_text
+         else
+             'Submenu: ' || entry_text || ' (' || parent_entry_text || ')'
+     end as navigation_name
+    from apex_application_list_entries
+    where list_name in (
+        select column_value
+        from table(apex_string.split(sta_sypa.f_get_parameter(pi_parameter => 'P27_PARENT_LISTS'), ','))
+    )
+    and entry_text = b_entry_text;
+
+      cursor c_get_apex_page_name(b_apex_page_id apex_application_pages.page_id%type)
+      is
+        select  page_name
+        from    apex_application_pages
+        where   page_id = b_apex_page_id
+        ;
+
+    l_nav_name        apex_application_list_entries.entry_text%type;
+    l_apex_page_name  apex_application_pages.page_name%type;
+
+  begin
+
+
+    if pi_apex_component_type in ('REG', 'BUTTONS', 'PAGE_ITEMS', 'PAGE') then
+      open  c_get_apex_page_name(b_apex_page_id => pi_apex_page);
+      fetch c_get_apex_page_name into l_apex_page_name;
+      close c_get_apex_page_name;
+    end if;
+
+    case pi_apex_component_type
+      when 'NAV' then
+        -- extra processing
+        open  c_get_navigation_name( b_entry_text => pi_apex_component_name);
+        fetch c_get_navigation_name into l_nav_name;
+        close c_get_navigation_name;
+        --
+        l_generated_name := 'Navigation ' || l_nav_name;
+        --
+      when 'REG' then
+        --
+        l_generated_name := 'Page ' || pi_apex_page || ': '|| l_apex_page_name || ' - Region: ' || pi_apex_component_name;
+        --
+      when 'BUTTONS' then
+        l_generated_name := 'Page ' || pi_apex_page || ': ' || l_apex_page_name || ' - Button: ' || pi_apex_component_name;
+        --
+      when 'PAGE_ITEMS' then
+        --
+        l_generated_name := 'Page ' || pi_apex_page ||': '|| l_apex_page_name ||  ' - Item: '   || pi_apex_component_name;
+        --
+      when 'PAGE' then
+        --
+        l_generated_name := 'Page ' || pi_apex_page || ': ' || l_apex_page_name;
+        --
+      else
+        l_generated_name := 'Unknown Component Type';
+    end case;
+    return l_generated_name;
+  end f_generate_authorization_name;
 
 
 
