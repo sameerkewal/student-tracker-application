@@ -19,6 +19,19 @@ is
     end f_get_usr
     ;
 
+  function f_get_usr_by_email(pi_email sta_user.email%type) return sta_user%rowtype
+  is
+    v_row sta_user%rowtype;
+    cursor cur_row is
+      select * from sta_user 
+      where  lower(email) = lower(pi_email);
+  begin
+    open cur_row;
+    fetch cur_row into v_row;
+    close cur_row;
+    return v_row;
+  end f_get_usr_by_email;
+
     procedure p_upsert_tchr( pi_id            sta_user.id%type  
                            , pi_first_name    sta_user.first_name%type     
                            , pi_last_name     sta_user.last_name%type 
@@ -29,6 +42,7 @@ is
                            , pi_email         sta_user.email%type 
                            , pi_password      sta_user.password%type
                            , pi_rle_id        sta_role.id%type
+                           , pi_is_admin      boolean
                            , pi_courses       varchar2
                           )
       is
@@ -41,7 +55,7 @@ is
 
         if l_tchr_id is null then
           -- Generate salt
-          l_salt := sta_auth.f_generate_salt;
+          l_salt := sta_app_security.f_generate_salt;
 
           insert into sta_user
           ( first_name
@@ -64,7 +78,7 @@ is
           , pi_phone_number1
           , pi_phone_number2
           , pi_email
-          , sta_auth.f_hash_password(pi_password => trim(pi_password), pi_salt => l_salt)
+          , sta_app_security.f_hash_password(pi_password => trim(pi_password), pi_salt => l_salt)
           , l_salt
           )
           returning id into l_tchr_id;
@@ -80,6 +94,20 @@ is
             pi_rle_id
           , l_tchr_id
           );
+
+          -- User can be an admin as well as a teacher
+          if pi_is_admin then
+            insert into sta_user_role
+            ( rle_id
+            , usr_id
+            )
+            values
+            (
+              sta_rle.f_get_rle_id(pi_name => 'admin')
+            , l_tchr_id
+            );
+          end if;
+
           --
           -- Couple the courses with the teacher(teacher === user)
           --
@@ -93,7 +121,7 @@ is
         -- generate salt
         --
           if pi_password is not null then
-            l_salt := sta_auth.f_generate_salt;
+            l_salt := sta_app_security.f_generate_salt;
           end if;
           
           update sta_user
@@ -105,7 +133,7 @@ is
             , phone_number2 = pi_phone_number2
             , email         = pi_email
             , password      = case when pi_password is null 
-                                then password else sta_auth.f_hash_password(pi_password => trim(pi_password), pi_salt => l_salt)
+                                then password else sta_app_security.f_hash_password(pi_password => trim(pi_password), pi_salt => l_salt)
                               end
             , salt          = case when pi_password is null 
                                 then salt else l_salt
@@ -123,6 +151,23 @@ is
                 insert into sta_course_teacher (crse_id, usr_id)
                 values (l_courses(i), l_tchr_id);
           end loop;
+
+
+
+          delete from sta_user_role
+          where usr_id = l_tchr_id
+          and rle_id   =  sta_rle.f_get_rle_id(pi_name => 'admin');
+
+          if pi_is_admin then
+
+            insert into sta_user_role
+            ( usr_id
+            , rle_id
+            )values(
+              l_tchr_id
+            , sta_rle.f_get_rle_id(pi_name => 'admin')
+            );
+          end if;
         end if;
       end p_upsert_tchr;
 

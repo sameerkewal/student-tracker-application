@@ -6,3 +6,5 @@
 @sta_class_data.sql
 @sta_course_data.sql
 @sta_course_grade_data.sql
+@sta_super_admin.sql
+@sta_admin.sql

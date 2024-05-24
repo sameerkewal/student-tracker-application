@@ -1,5 +1,5 @@
 declare
-    l_salt varchar2(64) := sta_auth.f_generate_salt;
+    l_salt varchar2(64) := sta_app_security.f_generate_salt;
 begin
     insert into sta_user(
                           first_name
@@ -17,11 +17,20 @@ begin
            , 'Hindilaan'
            , '7298604'
            , 'sameerkewal1@gmail.com'
-           , sta_auth.f_hash_password(pi_password => 'SuperAdmin', pi_salt=> l_salt)
+           , sta_app_security.f_hash_password(pi_password => 'SuperAdmin', pi_salt=> l_salt)
            , l_salt
            );
 end;
 /
+--couple super admin role with super admin user
+insert into sta_user_role
+                         (
+                           usr_id
+                         , rle_id
+                         )values(
+                              (select id from sta_user where email = 'sameerkewal1@gmail.com')
+                            , (select id from sta_role where name = 'Super Admin')
+                        );
 commit;
 
 

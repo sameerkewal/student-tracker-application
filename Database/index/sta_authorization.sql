@@ -1,0 +1,1 @@
+create unique index sta_auth_ix1 on sta_authorization(lower(name));

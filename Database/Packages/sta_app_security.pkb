@@ -58,12 +58,17 @@ is
   end f_get_salt_and_password;
 
 
-    -- function to check if user is authorized to access the application
+    -- main function to check if user is authorized to access the application
   function f_is_usr_authenticated( p_username sta_user.email%type, p_password sta_user.password%type) return boolean
   is
     lc_salt_password_rec constant t_salt_password_rec  := f_get_salt_and_password(pi_email => p_username);
   begin
-    return f_validate_password(pi_password => p_password, pi_salt => lc_salt_password_rec.salt, pi_hashed_password => lc_salt_password_rec.password);
+    -- if user is deleted, return false
+  if sta_usr.f_get_usr_by_email(pi_email => p_username).deleted_flg then
+    return false;
+  end if;
+    --
+  return f_validate_password(pi_password => p_password, pi_salt => lc_salt_password_rec.salt, pi_hashed_password => lc_salt_password_rec.password);
   end f_is_usr_authenticated;
 
 
@@ -179,88 +184,75 @@ end f_password_special_chk;
   end f_password_chk;
 
 
-  function f_is_component_authorized ( p_application_id in number
-                                     , pi_apex_page_id  in number
-                                     , p_component_type in varchar2
-                                     , p_component_id   in number
+  function f_is_component_authorized ( pi_application_id      in number
+                                     , pi_email               in sta_user.email%type
+                                     , pi_apex_page_id        in number
+                                     , p_component_type       in varchar2
+                                     , pi_component_id        in number
                                      , pi_apex_component_name in sta_authorization.apex_component_name%type
+                                     , pi_read_only           in sta_authorization.read_only%type default false
+                                     , pi_auth_type            in varchar2
                                      ) return boolean
   is
+    l_result number := 0;
+
+    cursor c_usr_auths( b_email               sta_user.email%type
+                      , b_apex_page_id        sta_authorization.apex_page%type
+                      , b_apex_component_name sta_authorization.apex_component_name%type
+                      , b_read_only           boolean                      
+                      )
+    is
+      select 1
+      from   sta_vw_user_authentication usr_auth
+      where  lower(usr_auth.usr_email)                        = lower(b_email)
+      and    coalesce(usr_auth.auth_apex_page, 0)             = coalesce(b_apex_page_id, usr_auth.auth_apex_page, 0)
+      and    coalesce(usr_auth.auth_apex_component_name, 'x') = coalesce(b_apex_component_name, usr_auth.auth_apex_component_name, 'x')
+      and    coalesce(usr_auth.auth_read_only, false)         = coalesce(b_read_only, usr_auth.auth_read_only, false)
+      ;
+
+
   begin
-    null;
+  
+    -- debugging start
+    apex_debug.message('Authorization starting for ' || pi_auth_type);
+
+    apex_debug.message('pi_application_id     => '|| pi_application_id);
+    apex_debug.message('pi_email              => '|| pi_email);
+    apex_debug.message('pi_apex_page_id       => '|| pi_apex_page_id);
+    apex_debug.message('p_component_type      => '|| p_component_type);
+    apex_debug.message('pi_component_id       => '|| pi_component_id);
+    apex_debug.message('pi_apex_component_name=> '|| pi_apex_component_name);
+    apex_debug.message('pi_read_only          => '|| case when pi_read_only then 'true' else 'false' end);
+    -- debugging end
+
+
+    open c_usr_auths( b_email               => pi_email
+                    , b_apex_page_id        => pi_apex_page_id
+                    , b_apex_component_name => pi_apex_component_name
+                    , b_read_only           => pi_read_only
+                    );
+    fetch c_usr_auths into l_result;
+    close c_usr_auths;
+
+    if l_result = 1 then
+      return true;
+    else
+      return false;
+    end if;
+    
   end f_is_component_authorized;
 
-  function f_generate_authorization_name( pi_apex_component_type varchar2
-                                        , pi_apex_component_name sta_authorization.apex_component_name%type
-                                        , pi_apex_page           sta_authorization.apex_page%type
-                                        )return sta_authorization.name%type
-  is
-    l_generated_name sta_authorization.name%type;
-    cursor c_get_navigation_name(b_entry_text apex_application_list_entries.entry_text%type)
-    is
-     select case
-         when parent_entry_text is null then
-             'Hoofdmenu: ' || entry_text
-         else
-             'Submenu: ' || entry_text || ' (' || parent_entry_text || ')'
-     end as navigation_name
-    from apex_application_list_entries
-    where list_name in (
-        select column_value
-        from table(apex_string.split(sta_sypa.f_get_parameter(pi_parameter => 'P27_PARENT_LISTS'), ','))
-    )
-    and entry_text = b_entry_text;
-
-      cursor c_get_apex_page_name(b_apex_page_id apex_application_pages.page_id%type)
-      is
-        select  page_name
-        from    apex_application_pages
-        where   page_id = b_apex_page_id
-        ;
-
-    l_nav_name        apex_application_list_entries.entry_text%type;
-    l_apex_page_name  apex_application_pages.page_name%type;
-
-  begin
+  -- function is_page_authorized( pi_application_id in number
+  --                            , pi_email in sta_user.email%type, pi_apex_page_id in number
+  --                            , pi_apex_page_id sta_user.apex_page%type
+  --                            ) return boolean
+  -- is
+    
+  -- begin
+    
+  -- end;
 
 
-    if pi_apex_component_type in ('REG', 'BUTTONS', 'PAGE_ITEMS', 'PAGE') then
-      open  c_get_apex_page_name(b_apex_page_id => pi_apex_page);
-      fetch c_get_apex_page_name into l_apex_page_name;
-      close c_get_apex_page_name;
-    end if;
-
-    case pi_apex_component_type
-      when 'NAV' then
-        -- extra processing
-        open  c_get_navigation_name( b_entry_text => pi_apex_component_name);
-        fetch c_get_navigation_name into l_nav_name;
-        close c_get_navigation_name;
-        --
-        l_generated_name := 'Navigation ' || l_nav_name;
-        --
-      when 'REG' then
-        --
-        l_generated_name := 'Page ' || pi_apex_page || ': '|| l_apex_page_name || ' - Region: ' || pi_apex_component_name;
-        --
-      when 'BUTTONS' then
-        l_generated_name := 'Page ' || pi_apex_page || ': ' || l_apex_page_name || ' - Button: ' || pi_apex_component_name;
-        --
-      when 'PAGE_ITEMS' then
-        --
-        l_generated_name := 'Page ' || pi_apex_page ||': '|| l_apex_page_name ||  ' - Item: '   || pi_apex_component_name;
-        --
-      when 'PAGE' then
-        --
-        l_generated_name := 'Page ' || pi_apex_page || ': ' || l_apex_page_name;
-        --
-      when null then
-        l_generated_name := null;
-      else
-        l_generated_name := 'Unknown Component Type';
-    end case;
-    return l_generated_name;
-  end f_generate_authorization_name;
 
 
 
