@@ -37,9 +37,9 @@ is
                             , pi_date_of_birth       sta_user.date_of_birth%type  
                             , pi_address1            sta_user.address1%type  
                             , pi_address2            sta_user.address2%type  
-                            , pi_phone_number1       sta_user.phone_number1%type  
                             , pi_ctkr_id             sta_user.ctkr_id%type
                             , pi_remarks             sta_user.remarks%type
+                            , pi_remarks2            clob
                             , pi_clss_id             sta_user.clss_id%type
                             , pi_gender              sta_user.gender%type
                             , pi_registration_year   sta_user.registration_year%type
@@ -58,8 +58,13 @@ is
                              , pi_rle_id        sta_role.id%type
                              );
 
-    procedure p_hard_delete_tchr(pi_id sta_user.id%type);   
+    procedure p_hard_delete_tchr(pi_id sta_user.id%type);
+    procedure p_hard_delete_sdnt(pi_id sta_user.id%type);
     function f_get_user_role(pi_usr_id sta_user.id%type) return r_rle_tab pipelined;
+
+    -- Deletes multiple remarks based on a colon seperated string
+    -- Used on page 10
+    procedure delete_multiple_remarks(p_remarks_to_delete varchar2);
 
 
     end sta_usr;
