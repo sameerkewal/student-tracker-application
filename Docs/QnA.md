@@ -64,3 +64,12 @@ child’s behavior:
 3. Should specific events only be visible to designated roles?
 - for iedereen
 [Feature list](https://www.notion.so/Feature-list-d0cfc3bb87ce48c78c897af0605eaf2c?pvs=21)
+
+
+
+
+
+## Repetities worden assigned per leerjaar, dus niet dat elke klas een aparte repetitie van 1 vakt maakt right?
+- Yes per leerjaar
+
+

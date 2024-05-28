@@ -35,6 +35,44 @@ is
     return v_row;
   end f_get_usr_by_email;
 
+
+
+  function is_sdnt_uk( pi_id         in sta_user.id%type
+                     , pi_first_name in sta_user.first_name%type
+                     , pi_last_name  in sta_user.last_name%type
+                     , pi_address1   in sta_user.address1%type 
+                     )return boolean
+  is
+    cursor c_uk_student_chk(b_first_name sta_user.first_name%type
+                           ,b_last_name  sta_user.last_name%type
+                           ,b_address1   sta_user.address1%type
+                           ,b_id         sta_user.id%type
+                           )
+    is
+        select  1 
+        from    sta_vw_student sdnt
+        where   lower(first_name) = lower(b_first_name)
+        and     lower(last_name)  = lower(b_last_name)
+        and     lower(address1)   = lower(b_address1)
+        and     (b_id is null or sdnt.id != b_id);    
+    l_rslt_uk_student_chk number;
+  begin
+
+     --Unique Student chk
+    open c_uk_student_chk(b_first_name  => pi_first_name 
+                          ,b_last_name  => pi_last_name
+                          ,b_address1   => pi_address1
+                          ,b_id         => pi_id
+                          );
+    fetch c_uk_student_chk into l_rslt_uk_student_chk;
+     if l_rslt_uk_student_chk = 1 then
+      return false;
+    else
+      return true;
+    end if;
+    close c_uk_student_chk;    
+  end;
+
     procedure p_upsert_tchr( pi_id            sta_user.id%type  
                            , pi_first_name    sta_user.first_name%type     
                            , pi_last_name     sta_user.last_name%type 
@@ -231,6 +269,110 @@ is
           delete_single_remark(p_remark_id => r.column_value);
         end loop;
       end delete_multiple_remarks;
+      
+      
+      procedure p_upsert_sdtnt_wrapper( pi_id                   in  sta_user.id%type                   
+                                      , pi_first_name           in  sta_user.first_name%type           
+                                      , pi_last_name            in  sta_user.last_name%type            
+                                      , pi_date_of_birth        in  sta_user.date_of_birth%type        
+                                      , pi_address1             in  sta_user.address1%type             
+                                      , pi_address2             in  sta_user.address1%type             
+                                      , pi_ctkr_id              in  sta_user.ctkr_id%type              
+                                      , pi_remarks              in  sta_user.remarks%type              
+                                      , pi_remarks2             in  sta_student_remark.remark%type     
+                                      , pi_clss_id              in  sta_user.clss_id%type              
+                                      , pi_gender               in  sta_user.gender%type               
+                                      , pi_registration_year    in  sta_user.registration_year%type    
+                                      , pi_deregistration_year  in  sta_user.deregistration_year%type  
+                                      , pi_origin_school        in  sta_user.origin_school%type        
+                                      , pi_del_rmk              in  varchar2  
+                                      , po_json_obj             out json_object_t                  
+    )
+    is
+        l_json_obj   json_object_t  := json_object_t();
+        l_errors_arr json_array_t   := json_array_t();
+    begin
+        -- Checks
+        if pi_first_name is null then
+        l_errors_arr.append(new json_object_t('{"msg": "Voornaam mag niet leeg zijn.", "item": "P10_VOORNAAM"}'));
+     end if;
+
+     if pi_last_name is null then
+        l_errors_arr.append(new json_object_t('{"msg": "Achternaam mag niet leeg zijn.", "item": "P10_ACHTERNAAM"}'));
+     end if;
+     if pi_date_of_birth is null then
+        l_errors_arr.append(new json_object_t('{"msg": "Geboortedatum mag niet leeg zijn.", "item": "P10_GEBOORTEDATUM"}'));
+     end if;
+     if pi_clss_id is null then
+        l_errors_arr.append(new json_object_t('{"msg": "Klas mag niet leeg zijn.", "item": "P10_KLAS"}'));
+     end if;
+     if pi_gender is null then
+        l_errors_arr.append(new json_object_t('{"msg": "Geslacht mag niet leeg zijn.", "item": "P10_GESLACHT"}'));
+     end if;
+     if pi_address1 is null then
+        l_errors_arr.append(new json_object_t('{"msg": "Hoofd adres mag niet leeg zijn.", "item": "P10_HOOFD_ADRES"}'));
+
+     end if;
+     if pi_ctkr_id is null then
+        l_errors_arr.append(new json_object_t('{"msg": "Ouder/Verzorger mag niet leeg zijn.", "item": "P10_CARETAKER"}'));
+     end if;
+
+     if pi_registration_year is null then
+        l_errors_arr.append(new json_object_t('{"msg": "Jaar van inschrijving mag niet leeg zijn.", "item": "P10_JAAR_VAN_INSCHRIJVING"}'));
+     end if;
+
+     --Unique Student chk
+    if is_sdnt_uk( pi_id         => pi_id
+                 , pi_first_name => pi_first_name
+                 , pi_last_name  => pi_last_name
+                 , pi_address1   => pi_address1
+                 )  = false then
+        l_errors_arr.append(new json_object_t('{"msg": "Er bestaat al een student met het ingevulde naam en hoofdadres. Voer unieke waarden in.", "item": "P10_ACHTERNAAM"}'));
+    end if;
+
+    if l_errors_arr.get_size() > 0 then
+        -- Return Error
+        l_json_obj.put('errors', l_errors_arr);
+        po_json_obj := l_json_obj;
+    else
+        --Actual Insert
+        sta_usr.p_upsert_stdnt( pi_id                   => pi_id                 
+                              , pi_first_name           => pi_first_name         
+                              , pi_last_name            => pi_last_name          
+                              , pi_date_of_birth        => pi_date_of_birth      
+                              , pi_address1             => pi_address1           
+                              , pi_address2             => pi_address2           
+                              , pi_ctkr_id              => pi_ctkr_id            
+                              , pi_remarks              => null            
+                              , pi_remarks2             => pi_remarks2           
+                              , pi_clss_id              => pi_clss_id            
+                              , pi_gender               => pi_gender             
+                              , pi_registration_year    => pi_registration_year  
+                              , pi_deregistration_year  => pi_deregistration_year
+                              , pi_origin_school        => pi_origin_school      
+                              , pi_rle_id               => sta_rle.f_get_rle_id('student')
+                              );
+
+        --del rmk
+        if pi_del_rmk is not null then
+            sta_usr.delete_multiple_remarks(p_remarks_to_delete => pi_del_rmk);
+        end if;
+        
+
+        if pi_id is null then
+            -- l_json_obj.put('message', 'Student successvol toegevoegd');
+            l_json_obj.put('action', 'I');
+        else
+            -- l_json_obj.put('message', 'Student successvol gewijzigd');
+            l_json_obj.put('action', 'U');
+
+        end if;
+
+        -- Return Success
+        po_json_obj := l_json_obj;
+
+    end if;
+    end p_upsert_sdtnt_wrapper;
 
 
     procedure p_upsert_stdnt( pi_id                  sta_user.id%type
@@ -441,6 +583,7 @@ is
     is
     begin
       delete from sta_user_role where usr_id = pi_id;
+      delete from sta_student_remark where usr_id = pi_id;
       delete from sta_user where id = pi_id;
     end;
 

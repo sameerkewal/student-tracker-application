@@ -30,6 +30,24 @@ is
                            , pi_courses       varchar2
                           );
 
+    procedure p_upsert_sdtnt_wrapper( pi_id                   in  sta_user.id%type                   
+                                    , pi_first_name           in  sta_user.first_name%type           
+                                    , pi_last_name            in  sta_user.last_name%type            
+                                    , pi_date_of_birth        in  sta_user.date_of_birth%type        
+                                    , pi_address1             in  sta_user.address1%type             
+                                    , pi_address2             in  sta_user.address1%type             
+                                    , pi_ctkr_id              in  sta_user.ctkr_id%type              
+                                    , pi_remarks              in  sta_user.remarks%type              
+                                    , pi_remarks2             in  sta_student_remark.remark%type     
+                                    , pi_clss_id              in  sta_user.clss_id%type              
+                                    , pi_gender               in  sta_user.gender%type               
+                                    , pi_registration_year    in  sta_user.registration_year%type    
+                                    , pi_deregistration_year  in  sta_user.deregistration_year%type  
+                                    , pi_origin_school        in  sta_user.origin_school%type        
+                                    , pi_del_rmk              in  varchar2  
+                                    , po_json_obj             out json_object_t                  
+                                    );
+
       
     procedure p_upsert_stdnt( pi_id                  sta_user.id%type
                             , pi_first_name          sta_user.first_name%type 

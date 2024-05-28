@@ -5,5 +5,6 @@
     <file url="file://$PROJECT_DIR$/Database/Packages/sta_sypa.pks" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/Scripts/Data/start.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/Database/Views/sta_vw_student.vw" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/Database/table/STA_TEST.sql" dialect="Oracle" />
   </component>
 </project>
