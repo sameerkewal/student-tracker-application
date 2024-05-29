@@ -84,84 +84,87 @@ is
                            , pi_password      sta_user.password%type
                            , pi_rle_id        sta_role.id%type
                            , pi_is_admin      boolean
-                           , pi_courses       varchar2
+                           , pi_crse_clss_tchr_tab  sta_crse_clss_tchr.t_crse_clss_tchr_tab
                           )
       is
         l_tchr_id  sta_user.id%type := pi_id;        
         l_courses  apex_t_varchar2;
         l_salt     varchar2(64);
       begin
-        -- The courses come in a colon seperated string from the checkbox group so we seperate them
-        l_courses := apex_string.split(pi_courses, ':');
+        
 
+
+          -- DO pw check first
         if l_tchr_id is null then
-          -- Generate salt
-          l_salt := sta_app_security.f_generate_salt;
-
-          insert into sta_user
-          ( first_name
-          , last_name
-          -- , date_of_birth
-          , address1
-          , address2
-          , phone_number1
-          , phone_number2
-          , email
-          , password
-          , salt)
-          values
-          (
-            pi_first_name
-          , pi_last_name
-          -- , pi_date_of_birth
-          , pi_address1
-            , pi_address2
-          , pi_phone_number1
-          , pi_phone_number2
-          , pi_email
-          , sta_app_security.f_hash_password(pi_password => trim(pi_password), pi_salt => l_salt)
-          , l_salt
-          )
-          returning id into l_tchr_id;
+           if not sta_app_security.f_password_chk(pi_password=> pi_password) then
+            return;
+           end if;
+           -- Generate salt
+           l_salt := sta_app_security.f_generate_salt;
+ 
+           insert into sta_user
+           ( first_name
+           , last_name
+           -- , date_of_birth
+           , address1
+           , address2
+           , phone_number1
+           , phone_number2
+           , email
+           , password
+           , salt)
+           values
+           (
+             pi_first_name
+           , pi_last_name
+           -- , pi_date_of_birth
+           , pi_address1
+           , pi_address2
+           , pi_phone_number1
+           , pi_phone_number2
+           , pi_email
+           , sta_app_security.f_hash_password(pi_password => trim(pi_password), pi_salt => l_salt)
+           , l_salt
+           )
+           returning id into l_tchr_id;
           --
           -- Couple the teacher with the role
           --
-          insert into sta_user_role
-          ( rle_id
-          , usr_id
-          )
-          values
-          (
-            pi_rle_id
-          , l_tchr_id
-          );
+           insert into sta_user_role
+           ( rle_id
+           , usr_id
+           )
+           values
+           (
+             pi_rle_id
+           , l_tchr_id
+           );
 
           -- User can be an admin as well as a teacher
-          if pi_is_admin then
-            insert into sta_user_role
-            ( rle_id
-            , usr_id
-            )
-            values
-            (
-              sta_rle.f_get_rle_id(pi_name => 'admin')
-            , l_tchr_id
-            );
-          end if;
+           if pi_is_admin then
+             insert into sta_user_role
+             ( rle_id
+             , usr_id
+             )
+             values
+             (
+               sta_rle.f_get_rle_id(pi_name => 'admin')
+             , l_tchr_id
+             );
+           end if;
 
           --
-          -- Couple the courses with the teacher(teacher === user)
+          -- Couple the courses and class with the teacher(teacher === user)
           --
-          for i in 1..l_courses.count loop
-                insert into sta_course_teacher (crse_id, usr_id)
-                values (l_courses(i), l_tchr_id);
-          end loop;
+          sta_crse_clss_tchr.upsert_crse_clss_tchr( pi_usr_id             => l_tchr_id
+                                                  , pi_crse_clss_tchr_tab => pi_crse_clss_tchr_tab
+                                                  );
 
         else
         --
-        -- generate salt
+        -- generate salt but only if password meets requirements
         --
-          if pi_password is not null then
+          if  pi_password is not null and sta_app_security.f_password_chk(pi_password => pi_password) then
             l_salt := sta_app_security.f_generate_salt;
           end if;
           
@@ -180,27 +183,19 @@ is
                                 then salt else l_salt
                               end
           where id = l_tchr_id;
-            --
-            -- Clear the courses from the coupled teacher
-            --
-            delete from sta_course_teacher
-            where usr_id = l_tchr_id;
           --
-          -- And couple the new selected ones
+          -- Update sta_course_class_teacher
+          sta_crse_clss_tchr.upsert_crse_clss_tchr( pi_usr_id             => l_tchr_id
+                                                  , pi_crse_clss_tchr_tab => pi_crse_clss_tchr_tab
+                                                  );
           --
-          for i in 1..l_courses.count loop
-                insert into sta_course_teacher (crse_id, usr_id)
-                values (l_courses(i), l_tchr_id);
-          end loop;
-
-
-
+          -- Clear current roles first
           delete from sta_user_role
           where usr_id = l_tchr_id
           and rle_id   =  sta_rle.f_get_rle_id(pi_name => 'admin');
 
+          -- Same as insert, teacher can also be an admin
           if pi_is_admin then
-
             insert into sta_user_role
             ( usr_id
             , rle_id
@@ -212,53 +207,38 @@ is
         end if;
       end p_upsert_tchr;
 
+     procedure delete_single_remark(pi_remark_id sta_student_remark.id%type)
+     is
+     begin
+         delete from sta_student_remark
+         where id = pi_remark_id;
+     end delete_single_remark;
+
       procedure upsert_remarks( pi_usr_id  sta_user.id%type
-                             ,  pi_remarks clob 
+                             ,  pi_remarks t_usr_rmk_tab
                                 )
        is
-          l_remarks_count number;
-          l_remarks_id    sta_student_remark.id%type;
-          l_remarks_name  sta_student_remark.remark%type;
        begin
         -- Debug
         apex_debug.message(gc_package       || 'upsert_remarks');
         apex_debug.message('pi_usr_id => '  || pi_usr_id);
-        -- Parse the JSON
-        apex_json.parse(pi_remarks);
-                    
-        l_remarks_count := apex_json.get_count('remarks');
-        for i in 1 .. l_remarks_count loop
-          l_remarks_id   := apex_json.get_varchar2(p_path => 'remarks[%d].id', p0 => i);
-          l_remarks_name := apex_json.get_varchar2(p_path => 'remarks[%d].name', p0 => i);
 
-          -- Skip processing if both ID and Name are null
-          -- I have heard before that using continue is a bad practice but this seems like the easiest way to skip iterations lmfao
-          if l_remarks_id is null and l_remarks_name is null then
-              continue;
-          end if;
-
-
-          merge into sta_student_remark a
-          using (
-                  select l_remarks_id   as id
-                  ,      pi_usr_id      as usr_id     
-                  ,      l_remarks_name as remark 
-                  from   dual) b 
-          on (a.id = b.id)
-          when matched then
-            update set a.remark = b.remark
-          when not matched then
-            insert (id, usr_id, remark) values (b.id, b.usr_id ,b.remark);
-        
-        end loop;               
+        for i in 1..pi_remarks.count loop
+            case pi_remarks(i).action
+                when 'C' then
+                    insert into sta_student_remark (usr_id, remark) values (pi_usr_id, pi_remarks(i).remark);
+                when 'U' then
+                    update sta_student_remark
+                    set usr_id =  pi_usr_id,
+                        remark = pi_remarks(i).remark
+                    where id = pi_remarks(i).id ;
+                when 'D' then
+                    delete_single_remark(pi_remark_id => pi_remarks(i).id);
+            end case;
+        end loop;
       end upsert_remarks;
 
-      procedure delete_single_remark(p_remark_id sta_student_remark.id%type)
-      is
-      begin
-        delete from sta_student_remark
-        where id = p_remark_id;
-      end delete_single_remark;
+
 
     -- Deletes multiple remarks based on a colon seperated string
     -- Used on page 10
@@ -266,7 +246,7 @@ is
       is
       begin
         for r in (select column_value from table(apex_string.split(p_remarks_to_delete, ':'))) loop
-          delete_single_remark(p_remark_id => r.column_value);
+          delete_single_remark(pi_remark_id => r.column_value);
         end loop;
       end delete_multiple_remarks;
       
@@ -344,8 +324,7 @@ is
                               , pi_address2             => pi_address2           
                               , pi_ctkr_id              => pi_ctkr_id            
                               , pi_remarks              => null            
-                              , pi_remarks2             => pi_remarks2           
-                              , pi_clss_id              => pi_clss_id            
+                              , pi_clss_id              => pi_clss_id
                               , pi_gender               => pi_gender             
                               , pi_registration_year    => pi_registration_year  
                               , pi_deregistration_year  => pi_deregistration_year
@@ -382,8 +361,7 @@ is
                             , pi_address1            sta_user.address1%type  
                             , pi_address2            sta_user.address2%type  
                             , pi_ctkr_id             sta_user.ctkr_id%type
-                            , pi_remarks             sta_user.remarks%type
-                            , pi_remarks2            clob
+                            , pi_remarks             t_usr_rmk_tab
                             , pi_clss_id             sta_user.clss_id%type
                             , pi_gender              sta_user.gender%type
                             , pi_registration_year   sta_user.registration_year%type
@@ -403,7 +381,6 @@ is
           , address2
           , ctkr_id
           , clss_id
-          , remarks
           , gender
           , registration_year
           , deregistration_year
@@ -418,7 +395,6 @@ is
           , pi_address2
           , pi_ctkr_id
           , pi_clss_id
-          , pi_remarks
           , pi_gender
           , pi_registration_year
           , pi_deregistration_year
@@ -426,7 +402,7 @@ is
           )
           returning id into l_usr_id;
 
-          upsert_remarks(pi_usr_id => l_usr_id, pi_remarks => pi_remarks2);
+          upsert_remarks(pi_usr_id => l_usr_id, pi_remarks => pi_remarks);
 
          insert into sta_user_role
          ( rle_id
@@ -446,14 +422,13 @@ is
             , address1            = pi_address1
             , address2            = pi_address2
             , ctkr_id             = pi_ctkr_id
-            , remarks             = pi_remarks
-            , gender              = pi_gender 
+            , gender              = pi_gender
             , registration_year   = pi_registration_year
             , deregistration_year = pi_deregistration_year
             , origin_school       = pi_origin_school
           where id = pi_id;
 
-          upsert_remarks(pi_usr_id => pi_id, pi_remarks => pi_remarks2);
+          upsert_remarks(pi_usr_id => pi_id, pi_remarks => pi_remarks);
 
         end if;
       end p_upsert_stdnt;
@@ -555,7 +530,7 @@ is
       end if;
 
       --fk
-      delete from sta_course_teacher
+      delete from sta_course_class_teacher
       where  usr_id = pi_id
       ;
 

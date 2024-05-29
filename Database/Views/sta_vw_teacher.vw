@@ -1,11 +1,12 @@
 --This view will be used to display all necessary columns for teachers.
 create or replace view sta_vw_teacher as
 with courses_agg as(
-    select   crse_tchr.usr_id
-    ,        listagg(crse.name, ', ') within group (order by crse.name) as courses
-    from     sta_course_teacher crse_tchr
-    join     sta_course crse on crse.id = crse_tchr.crse_id
-    group by crse_tchr.usr_id
+    select  listagg(distinct  crse.name, ', ') within group ( order by crse.name)        as courses
+    ,       usr_id
+    from    sta_course_class_teacher crse_clss_tchr
+    left    join sta_course crse on  crse_clss_tchr.crse_id = crse.id
+    group by usr_id
+
 ),
      w_teacher as(
     select usr.id 

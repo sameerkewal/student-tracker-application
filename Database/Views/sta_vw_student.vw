@@ -10,7 +10,6 @@ as
     ,       usr.address1
     ,       usr.address2
     ,       usr.phone_number1
-    ,       usr.remarks
     ,       usr.clss_id
     ,       usr.ctkr_id
     ,       usr.gender
