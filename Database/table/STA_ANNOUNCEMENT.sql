@@ -11,7 +11,6 @@ create table sta_announcement
     priority   varchar2(20)  not null
         constraint sta_anmt_chk2
             check (priority in ('High', 'Medium', 'Low')),
-    updated_at date
 )
 /
 
