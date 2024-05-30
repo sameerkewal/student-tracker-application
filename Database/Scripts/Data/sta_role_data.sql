@@ -81,5 +81,6 @@ MERGE INTO STA_ROLE a
             a.NAME = b.NAME,
             a.DESCRIPTION = b.DESCRIPTION;
 
+commit;
 prompt end sta_role_data.sql
 

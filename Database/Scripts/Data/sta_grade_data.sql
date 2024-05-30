@@ -112,5 +112,6 @@ MERGE INTO STA_GRADE a
         UPDATE SET
             a.NAME = b.NAME,
             a.DESCRIPTION = b.DESCRIPTION;
+commit;
 
 prompt end sta_grade_data.sql

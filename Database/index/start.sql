@@ -1,0 +1,10 @@
+@sta_authorization.sql
+@STA_CLASS.sql
+@STA_COURSE.sql
+@STA_GRADE.sql
+@STA_PRIVILEGE.sql
+@STA_ROLE.sql
+@STA_SEMESTER.sql
+@STA_SYSTEM_PARAMETER.sql
+@STA_TEST.sql
+@STA_USER.sql

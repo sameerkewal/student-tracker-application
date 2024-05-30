@@ -1,0 +1,128 @@
+MERGE INTO STA_PRIVILEGE a
+USING
+    (SELECT
+         125 AS ID,
+         q'[Leerkrachten Overzicht]' AS NAME,
+         null AS DESCRIPTION
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, NAME, DESCRIPTION)
+    VALUES (b.ID, b.NAME, b.DESCRIPTION)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.NAME = b.NAME,
+               a.DESCRIPTION = b.DESCRIPTION;
+
+MERGE INTO STA_PRIVILEGE a
+USING
+    (SELECT
+         103 AS ID,
+         q'[Jaarindeling CRUD]' AS NAME,
+         null AS DESCRIPTION
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, NAME, DESCRIPTION)
+    VALUES (b.ID, b.NAME, b.DESCRIPTION)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.NAME = b.NAME,
+               a.DESCRIPTION = b.DESCRIPTION;
+
+MERGE INTO STA_PRIVILEGE a
+USING
+    (SELECT
+         123 AS ID,
+         q'[Leerjaren Overzicht]' AS NAME,
+         null AS DESCRIPTION
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, NAME, DESCRIPTION)
+    VALUES (b.ID, b.NAME, b.DESCRIPTION)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.NAME = b.NAME,
+               a.DESCRIPTION = b.DESCRIPTION;
+
+MERGE INTO STA_PRIVILEGE a
+USING
+    (SELECT
+         81 AS ID,
+         q'[Authorisaties]' AS NAME,
+         null AS DESCRIPTION
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, NAME, DESCRIPTION)
+    VALUES (b.ID, b.NAME, b.DESCRIPTION)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.NAME = b.NAME,
+               a.DESCRIPTION = b.DESCRIPTION;
+
+MERGE INTO STA_PRIVILEGE a
+USING
+    (SELECT
+         124 AS ID,
+         q'[Leerjaren CRUD]' AS NAME,
+         null AS DESCRIPTION
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, NAME, DESCRIPTION)
+    VALUES (b.ID, b.NAME, b.DESCRIPTION)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.NAME = b.NAME,
+               a.DESCRIPTION = b.DESCRIPTION;
+
+MERGE INTO STA_PRIVILEGE a
+USING
+    (SELECT
+         127 AS ID,
+         q'[Leerkrachten CRUD]' AS NAME,
+         null AS DESCRIPTION
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, NAME, DESCRIPTION)
+    VALUES (b.ID, b.NAME, b.DESCRIPTION)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.NAME = b.NAME,
+               a.DESCRIPTION = b.DESCRIPTION;
+
+MERGE INTO STA_PRIVILEGE a
+USING
+    (SELECT
+         101 AS ID,
+         q'[Jaarindeling Overzicht]' AS NAME,
+         null AS DESCRIPTION
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, NAME, DESCRIPTION)
+    VALUES (b.ID, b.NAME, b.DESCRIPTION)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.NAME = b.NAME,
+               a.DESCRIPTION = b.DESCRIPTION;
+
+MERGE INTO STA_PRIVILEGE a
+USING
+    (SELECT
+         142 AS ID,
+         q'[Studenten CRUD]' AS NAME,
+         null AS DESCRIPTION
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, NAME, DESCRIPTION)
+    VALUES (b.ID, b.NAME, b.DESCRIPTION)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.NAME = b.NAME,
+               a.DESCRIPTION = b.DESCRIPTION;
+

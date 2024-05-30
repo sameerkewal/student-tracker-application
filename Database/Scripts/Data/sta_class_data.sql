@@ -71,5 +71,6 @@ MERGE INTO STA_CLASS a
             a.NAME = b.NAME,
             a.GRDE_ID = b.GRDE_ID,
             a.USR_ID = b.USR_ID;
+commit;
 
 prompt end sta_class_data.sql

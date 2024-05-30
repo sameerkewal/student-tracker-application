@@ -15,3 +15,5 @@ create table sta_semester
 )
 /
 
+alter table sta_semester add constraint sta_smsr_uk2 unique(start_date);
+alter table sta_semester add constraint sta_smsr_uk3 unique(end_date);

@@ -9,7 +9,8 @@ create table sta_student_test
     tst_id number      not null
         constraint sta_sdnt_tst_tst_fk
             references sta_test,
-    result varchar2(2) not null
-)
+    result varchar2(3) not null
+);
 /
+
 

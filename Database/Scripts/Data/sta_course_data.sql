@@ -159,5 +159,6 @@ MERGE INTO STA_COURSE a
         UPDATE SET
             a.NAME = b.NAME,
             a.DESCRIPTION = b.DESCRIPTION;
+commit;
 
 prompt end sta_course_data.sql

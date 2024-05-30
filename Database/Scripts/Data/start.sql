@@ -8,3 +8,7 @@
 @sta_course_grade_data.sql
 @sta_super_admin.sql
 @sta_admin.sql
+@sta_authorization_data.sql
+@sta_privilege_data.sql
+@sta_authorization_privilege_data.sql
+@sta_role_privilege_data.sql

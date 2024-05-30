@@ -73,3 +73,6 @@ child’s behavior:
 - Yes per leerjaar
 
 
+## Nadat een rep is gemaakt, en alle cijfers al zijn ingediend, mogen er in theorie geen changes meer gedaan worden aan de cijfers right?
+
+

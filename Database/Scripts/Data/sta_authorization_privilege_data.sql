@@ -1,0 +1,720 @@
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         103 AS ID,
+         103 AS AUTH_ID,
+         101 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         104 AS ID,
+         104 AS AUTH_ID,
+         101 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         99 AS ID,
+         103 AS AUTH_ID,
+         81 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         100 AS ID,
+         82 AS AUTH_ID,
+         81 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         202 AS ID,
+         129 AS AUTH_ID,
+         127 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         203 AS ID,
+         131 AS AUTH_ID,
+         127 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         204 AS ID,
+         133 AS AUTH_ID,
+         127 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         101 AS ID,
+         101 AS AUTH_ID,
+         81 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         102 AS ID,
+         121 AS AUTH_ID,
+         81 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         105 AS ID,
+         105 AS AUTH_ID,
+         101 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         106 AS ID,
+         121 AS AUTH_ID,
+         101 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         205 AS ID,
+         132 AS AUTH_ID,
+         127 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         206 AS ID,
+         128 AS AUTH_ID,
+         127 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         207 AS ID,
+         130 AS AUTH_ID,
+         127 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         201 AS ID,
+         127 AS AUTH_ID,
+         127 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         107 AS ID,
+         103 AS AUTH_ID,
+         103 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         108 AS ID,
+         104 AS AUTH_ID,
+         103 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         109 AS ID,
+         105 AS AUTH_ID,
+         103 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         110 AS ID,
+         111 AS AUTH_ID,
+         103 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         111 AS ID,
+         109 AS AUTH_ID,
+         103 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         112 AS ID,
+         110 AS AUTH_ID,
+         103 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         113 AS ID,
+         121 AS AUTH_ID,
+         103 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         114 AS ID,
+         103 AS AUTH_ID,
+         123 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         119 AS ID,
+         121 AS AUTH_ID,
+         124 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         115 AS ID,
+         122 AS AUTH_ID,
+         123 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         116 AS ID,
+         121 AS AUTH_ID,
+         123 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         117 AS ID,
+         123 AS AUTH_ID,
+         123 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         120 AS ID,
+         122 AS AUTH_ID,
+         124 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         121 AS ID,
+         123 AS AUTH_ID,
+         124 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         118 AS ID,
+         103 AS AUTH_ID,
+         124 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         122 AS ID,
+         124 AS AUTH_ID,
+         124 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         123 AS ID,
+         125 AS AUTH_ID,
+         124 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         124 AS ID,
+         126 AS AUTH_ID,
+         124 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         162 AS ID,
+         161 AS AUTH_ID,
+         142 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         163 AS ID,
+         162 AS AUTH_ID,
+         142 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         164 AS ID,
+         163 AS AUTH_ID,
+         142 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         165 AS ID,
+         164 AS AUTH_ID,
+         142 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         166 AS ID,
+         168 AS AUTH_ID,
+         142 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         167 AS ID,
+         165 AS AUTH_ID,
+         142 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         168 AS ID,
+         167 AS AUTH_ID,
+         142 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         169 AS ID,
+         169 AS AUTH_ID,
+         142 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         170 AS ID,
+         166 AS AUTH_ID,
+         142 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         189 AS ID,
+         141 AS AUTH_ID,
+         125 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         190 AS ID,
+         128 AS AUTH_ID,
+         125 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+
+MERGE INTO STA_AUTHORIZATION_PRIVILEGE a
+USING
+    (SELECT
+         191 AS ID,
+         127 AS AUTH_ID,
+         125 AS PVE_ID
+     FROM DUAL) b
+ON ( a.ID = b.ID )
+WHEN NOT MATCHED THEN
+    INSERT (ID, AUTH_ID, PVE_ID)
+    VALUES (b.ID, b.AUTH_ID, b.PVE_ID)
+WHEN MATCHED THEN
+    UPDATE SET
+               a.AUTH_ID = b.AUTH_ID,
+               a.PVE_ID = b.PVE_ID;
+

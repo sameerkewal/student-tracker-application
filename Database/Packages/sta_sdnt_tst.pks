@@ -6,6 +6,7 @@ is
 
   procedure p_process_sdnt_tst( pi_sdnt_tst_id sta_student_test.id%type
                               , pi_usr_id   sta_student_test.usr_id%type
+                              , pi_tst_id   sta_student_test.tst_id%type
                               , pi_rslt     sta_student_test.result%type
                               , pi_action   varchar2
                               );

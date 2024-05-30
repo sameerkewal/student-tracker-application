@@ -10,7 +10,7 @@ create table sta_announcement
             check (status in ('Active', 'Expired', 'Draft')),
     priority   varchar2(20)  not null
         constraint sta_anmt_chk2
-            check (priority in ('High', 'Medium', 'Low')),
+            check (priority in ('High', 'Medium', 'Low'))
 )
 /
 

@@ -18,18 +18,20 @@ is
     end;
 
     procedure p_upsert_sdnt_tst( pi_sdnt_tst_id sta_student_test.id%type
+                               , pi_tst_id      sta_student_test.tst_id%type
                                , pi_usr_id      sta_student_test.usr_id%type
                                , pi_rslt        sta_student_test.result%type
                                )
     is
     begin
         if pi_sdnt_tst_id is null then
-            insert into sta_student_test (usr_id, result)
-            values (pi_usr_id, pi_rslt);
+            insert into sta_student_test (tst_id, usr_id, result)
+            values (pi_tst_id, pi_usr_id, pi_rslt);
         else
             update sta_student_test
             set usr_id = pi_usr_id
               , result = pi_rslt
+              , tst_id = pi_tst_id
             where id = pi_sdnt_tst_id;
         end if;
     end p_upsert_sdnt_tst;
@@ -43,6 +45,7 @@ is
 
     procedure p_process_sdnt_tst( pi_sdnt_tst_id sta_student_test.id%type
                                 , pi_usr_id      sta_student_test.usr_id%type
+                                , pi_tst_id      sta_student_test.tst_id%type
                                 , pi_rslt        sta_student_test.result%type
                                 , pi_action      varchar2
                                 )
@@ -52,12 +55,14 @@ is
             when 'C' then
                 p_upsert_sdnt_tst( pi_sdnt_tst_id => pi_sdnt_tst_id
                                  , pi_usr_id      => pi_usr_id
+                                 , pi_tst_id      => pi_tst_id
                                  , pi_rslt        => pi_rslt         
                                  );
 
-            when 'I' then
+            when 'U' then
                 p_upsert_sdnt_tst( pi_sdnt_tst_id => pi_sdnt_tst_id
                                  , pi_usr_id      => pi_usr_id
+                                 , pi_tst_id      => pi_tst_id
                                  , pi_rslt        => pi_rslt         
                                  );
 

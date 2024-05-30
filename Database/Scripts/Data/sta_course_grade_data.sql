@@ -686,3 +686,4 @@ MERGE INTO STA_COURSE_GRADE a
             a.CRSE_ID = b.CRSE_ID,
             a.GRDE_ID = b.GRDE_ID;
 
+commit;
