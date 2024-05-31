@@ -17,6 +17,13 @@ is
         return l_rslt;
     end;
 
+    procedure p_delete_sdnt_tst( pi_sdnt_tst_id sta_student_test.id%type )
+    is
+    begin
+      delete from sta_student_test
+      where id = pi_sdnt_tst_id;
+    end p_delete_sdnt_tst;
+
     procedure p_upsert_sdnt_tst( pi_sdnt_tst_id sta_student_test.id%type
                                , pi_tst_id      sta_student_test.tst_id%type
                                , pi_usr_id      sta_student_test.usr_id%type
@@ -25,9 +32,24 @@ is
     is
     begin
         if pi_sdnt_tst_id is null then
+
+            -- If result is 0 or null we basically treat test result as not made
+            -- For example if a student was sick and could not attend then a 0 will be entered as the result
+            if pi_rslt is null or pi_rslt = 0 then
+                return;
+            end if;
+
             insert into sta_student_test (tst_id, usr_id, result)
             values (pi_tst_id, pi_usr_id, pi_rslt);
         else
+            -- If result is 0 or null we basically treat test result as not made
+            -- For example if a student was sick and could not attend then a 0 will be entered as the result
+            -- In the case of an update the row was already added meaning we will delete it and then return
+            if  pi_rslt is null or pi_rslt = 0 then
+                p_delete_sdnt_tst(pi_sdnt_tst_id => pi_sdnt_tst_id);
+                return;
+            end if;
+
             update sta_student_test
             set usr_id = pi_usr_id
               , result = pi_rslt
@@ -36,12 +58,7 @@ is
         end if;
     end p_upsert_sdnt_tst;
 
-    procedure p_delete_sdnt_tst( pi_sdnt_tst_id sta_student_test.id%type )
-    is  
-    begin
-        delete from sta_student_test
-        where id = pi_sdnt_tst_id;  
-    end p_delete_sdnt_tst;
+
 
     procedure p_process_sdnt_tst( pi_sdnt_tst_id sta_student_test.id%type
                                 , pi_usr_id      sta_student_test.usr_id%type

@@ -25,3 +25,4 @@ as
     where     lower(rle.name) = lower('student')
     and       usr.deleted_flg = false
     ;
+
