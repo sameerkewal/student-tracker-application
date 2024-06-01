@@ -13,7 +13,9 @@
     <file url="file://$PROJECT_DIR$/Database/Scripts/Utils/drop_users.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/Views/sta_vw_student.vw" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/Views/sta_vw_teacher.vw" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/table/STA_AUTHORIZATION_PRIVILEGE.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/table/STA_TEST.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/table/STA_USER_ROLE.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/table/sta_course_class_teacher.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/table/start.sql" dialect="GenericSQL" />
   </component>

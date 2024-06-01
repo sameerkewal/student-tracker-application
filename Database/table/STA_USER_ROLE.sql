@@ -12,3 +12,4 @@ create table sta_user_role
 )
 /
 
+alter table sta_user_role add constraint sta_usr_rle_uk1 unique (usr_id, rle_id);

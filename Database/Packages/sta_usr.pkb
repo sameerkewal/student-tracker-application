@@ -422,6 +422,7 @@ is
             , address1            = pi_address1
             , address2            = pi_address2
             , ctkr_id             = pi_ctkr_id
+            , clss_id             = pi_clss_id
             , gender              = pi_gender
             , registration_year   = pi_registration_year
             , deregistration_year = pi_deregistration_year

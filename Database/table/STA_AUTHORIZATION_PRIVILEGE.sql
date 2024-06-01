@@ -12,3 +12,4 @@ create table sta_authorization_privilege
 )
 /
 
+alter table sta_authorization_privilege add constraint sta_auth_pve_uk1 unique(auth_id, pve_id);
