@@ -33,7 +33,7 @@ prompt APPLICATION 101 - Student Tracker Application
 -- Application Export:
 --   Application:     101
 --   Name:            Student Tracker Application
---   Date and Time:   18:31 Sunday June 2, 2024
+--   Date and Time:   19:24 Sunday June 2, 2024
 --   Exported By:     STA
 --   Flashback:       0
 --   Export Type:     Application Export
@@ -78,7 +78,7 @@ prompt APPLICATION 101 - Student Tracker Application
 --       Reports:
 --       E-Mail:
 --     Supporting Objects:  Included
---       Install scripts:          2
+--       Install scripts:          1
 --   Version:         23.2.0
 --   Instance ID:     2135623006102032
 --
@@ -130,7 +130,7 @@ wwv_imp_workspace.create_flow(
 ,p_substitution_string_01=>'APP_NAME'
 ,p_substitution_value_01=>'Student Tracker Application'
 ,p_last_updated_by=>'STA'
-,p_last_upd_yyyymmddhh24miss=>'20240602183010'
+,p_last_upd_yyyymmddhh24miss=>'20240602192423'
 ,p_file_prefix => nvl(wwv_flow_application_install.get_static_app_file_prefix,'')
 ,p_files_version=>78
 ,p_print_server_type=>'NATIVE'
@@ -58911,10 +58911,10 @@ end;
 prompt --application/deployment/install/install_sta_all_objects
 begin
 wwv_flow_imp_shared.create_install_script(
- p_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18185759404770107)
 ,p_install_id=>wwv_flow_imp.id(8134348940583144)
 ,p_name=>'sta_all_objects'
-,p_sequence=>30
+,p_sequence=>50
 ,p_script_type=>'INSTALL'
 ,p_script_clob=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '  CREATE TABLE "STA_ANNOUNCEMENT" ',
@@ -59169,6 +59169,171 @@ wwv_flow_imp_shared.create_install_script(
 '	  REFERENCES "STA_USER" ("ID") ENABLE;',
 '  ALTER TABLE "STA_USER_ROLE" ADD CONSTRAINT "STA_USR_RLE_RLE_FK" FOREIGN KEY ("RLE_ID")',
 '	  REFERENCES "STA_ROLE" ("ID") ENABLE;',
+'create or replace function fetch_example(',
+'    p_url varchar2',
+') ',
+'return json',
+'as mle module fetch_demo_module',
+'signature ''fetchExample(string)'';',
+'/',
+'create or replace function func',
+'return varchar2',
+'as mle module bcrypt_impl env sta_env',
+'signature ''gen_salt()''',
+';',
+'    /',
+'',
+'select id',
+'from   sta_role',
+'where  lower(name) = lower(''leerkracht'');',
+'/',
+'create or replace function gen_salt(str varchar2)',
+'return varchar2',
+'as mle module bcrypt_impl',
+'signature ''gen_salt(string)''',
+';',
+'/',
+'create or replace function hash_sync(str varchar2)',
+'return varchar2',
+'as mle module bcrypt2',
+'signature ''hello()''',
+';',
+'/',
+'create or replace function hello(str varchar2, str2 varchar2)',
+'return varchar2',
+'as mle module bcrypt2',
+'signature ''bello(string, string)''',
+';',
+'/',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
 '',
 '  CREATE UNIQUE INDEX "STA_AUTH_PVE_PK" ON "STA_AUTHORIZATION_PRIVILEGE" ("ID") ',
 '  ;',
@@ -59245,7 +59410,16 @@ wwv_flow_imp_shared.create_install_script(
 '  CREATE UNIQUE INDEX "STA_PVE_IX1" ON "STA_PRIVILEGE" (LOWER("NAME")) ',
 '  ;',
 '',
+'  CREATE UNIQUE INDEX "STA_USR_RLE_UK1" ON "STA_USER_ROLE" ("USR_ID", "RLE_ID") ',
+'  ;',
+'',
 '  CREATE UNIQUE INDEX "STA_SMSR_PK" ON "STA_SEMESTER" ("ID") ',
+'  ;',
+'',
+'  CREATE UNIQUE INDEX "STA_SMSR_UK3" ON "STA_SEMESTER" ("END_DATE") ',
+'  ;',
+'',
+'  CREATE UNIQUE INDEX "STA_SMSR_IX2" ON "STA_SEMESTER" (CASE  WHEN "ACTIVE_IND"=TRUE THEN 1 ELSE NULL END ) ',
 '  ;',
 '',
 '  CREATE UNIQUE INDEX "STA_CLSS_IX1" ON "STA_CLASS" (LOWER("NAME")) ',
@@ -59260,7 +59434,13 @@ wwv_flow_imp_shared.create_install_script(
 '  CREATE UNIQUE INDEX "STA_SYPA_PK" ON "STA_SYSTEM_PARAMETER" ("ID") ',
 '  ;',
 '',
+'  CREATE UNIQUE INDEX "STA_AUTH_PVE_UK1" ON "STA_AUTHORIZATION_PRIVILEGE" ("AUTH_ID", "PVE_ID") ',
+'  ;',
+'',
 '  CREATE UNIQUE INDEX "STA_CRSE_IX1" ON "STA_COURSE" (LOWER("NAME")) ',
+'  ;',
+'',
+'  CREATE UNIQUE INDEX "STA_SMSR_UK2" ON "STA_SEMESTER" ("START_DATE") ',
 '  ;',
 '',
 '  CREATE UNIQUE INDEX "STA_TST_IX1" ON "STA_TEST" (LOWER("NAME")) ',
@@ -59268,6 +59448,16 @@ wwv_flow_imp_shared.create_install_script(
 '',
 '  CREATE UNIQUE INDEX "STA_RLE_IX1" ON "STA_ROLE" (LOWER("NAME")) ',
 '  ;',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
 '',
 '',
 '',
@@ -59574,7 +59764,15 @@ wwv_flow_imp_shared.create_install_script(
 '                             );',
 '',
 '    procedure p_hard_delete_tchr(pi_id sta_user.id%type);',
-'    procedure p_hard_delete_sdnt(pi_id sta_user.id%type);',
+'    procedure p_hard_delete_sdnt'))
+);
+end;
+/
+begin
+wwv_flow_imp_shared.append_to_install_script(
+ p_id=>wwv_flow_imp.id(18185759404770107)
+,p_script_clob=>wwv_flow_string.join(wwv_flow_t_varchar2(
+'(pi_id sta_user.id%type);',
 '    function f_get_user_role(pi_usr_id sta_user.id%type) return r_rle_tab pipelined;',
 '',
 '    -- Deletes multiple remarks based on a colon seperated string',
@@ -59683,12 +59881,8 @@ wwv_flow_imp_shared.create_install_script(
 '    )',
 '    select "ID","FIRST_NAME","LAST_NAME","ADDRESS1","ADDRESS2","PHONE_NUMBER1","PHONE_NUMBER2","REMARKS" from w_caretaker;',
 '',
-'  CREATE OR REPLACE FORCE EDITIONABLE VIEW "STA_VW_STUDENT" ("ID", "FIRST_NAME", "LAST_NAME", "DATE_OF_BIRTH", "ADDRESS1", "ADDRESS2", "PHONE_NUMBER1", "CLSS_ID", "GRDE_ID", "CTKR_ID", '))
-);
-wwv_flow_imp_shared.append_to_install_script(
- p_id=>wwv_flow_imp.id(16634836605367910)
-,p_script_clob=>wwv_flow_string.join(wwv_flow_t_varchar2(
-'"GENDER", "REGISTRATION_YEAR", "DEREGISTRATION_YEAR", "ORIGIN_SCHOOL") AS ',
+'  CREATE OR REPLACE FORCE EDITIONABLE VIEW "STA_VW_STUDENT" ("ID", "FIRST_NAME", "LAST_NAME", "DATE_OF_BIRTH", "ADDRESS1", "ADDRESS2", "PHONE_NUMBER1", "CLSS_ID", "GRDE_ID", "CTKR_ID", "GENDER", "REGISTRATION_YEAR", "DEREGISTRATION_YEAR", "ORIGIN_SCH'
+||'OOL") AS ',
 '  select    usr.id           ',
 '    ,         usr.first_name',
 '    ,         usr.last_name',
@@ -59767,6 +59961,16 @@ wwv_flow_imp_shared.append_to_install_script(
 '',
 '   COMMENT ON COLUMN "STA_CLASS"."USR_ID" IS ''class gaurdian refers to the users table where the user is a teacher'';',
 '   COMMENT ON TABLE "STA_CLASS"  IS ''This table is used to store class information'';',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
 '',
 '',
 '',
@@ -60457,7 +60661,16 @@ unistr('                    p_message          => ''Het wachtwoord moet minimaal
 '        end;',
 '        --',
 '        -- Main',
-'        --',
+'        --'))
+);
+null;
+end;
+/
+begin
+wwv_flow_imp_shared.append_to_install_script(
+ p_id=>wwv_flow_imp.id(18185759404770107)
+,p_script_clob=>wwv_flow_string.join(wwv_flow_t_varchar2(
+'',
 '        begin',
 '          dbms_lob.createtemporary(res,true);',
 '          dbms_lob.createtemporary(ddl,true);',
@@ -60494,15 +60707,7 @@ unistr('                    p_message          => ''Het wachtwoord moet minimaal
 '                if not need_quotes then',
 '                  res := substr(res,1,last_dqt-1)||lower(substr(res,last_dqt+1));',
 '                else',
-'     '))
-);
-end;
-/
-begin
-wwv_flow_imp_shared.append_to_install_script(
- p_id=>wwv_flow_imp.id(16634836605367910)
-,p_script_clob=>wwv_flow_string.join(wwv_flow_t_varchar2(
-'             append;',
+'                  append;',
 '                end if;',
 '                need_quotes := false;',
 '              end if;    ',
@@ -61254,7 +61459,12 @@ wwv_flow_imp_shared.append_to_install_script(
 '                                      , pi_date_of_birth        in  sta_user.date_of_birth%type        ',
 '                                      , pi_address1             in  sta_user.address1%type             ',
 '                                      , pi_address2             in  sta_user.address1%type             ',
-'                                      , pi_ctkr_id              in  sta_user.ctkr_id%type              ',
+'                                      , pi_ctkr_id              in  sta_u'))
+);
+wwv_flow_imp_shared.append_to_install_script(
+ p_id=>wwv_flow_imp.id(18185759404770107)
+,p_script_clob=>wwv_flow_string.join(wwv_flow_t_varchar2(
+'ser.ctkr_id%type              ',
 '                                      , pi_remarks              in  sta_user.remarks%type              ',
 '                                      , pi_remarks2             in  sta_student_remark.remark%type     ',
 '                                      , pi_clss_id              in  sta_user.clss_id%type              ',
@@ -61278,12 +61488,7 @@ wwv_flow_imp_shared.append_to_install_script(
 '        l_errors_arr.append(new json_object_t(''{"msg": "Achternaam mag niet leeg zijn.", "item": "P10_ACHTERNAAM"}''));',
 '     end if;',
 '     if pi_date_of_birth is null then',
-'        l_errors_arr.app'))
-);
-wwv_flow_imp_shared.append_to_install_script(
- p_id=>wwv_flow_imp.id(16634836605367910)
-,p_script_clob=>wwv_flow_string.join(wwv_flow_t_varchar2(
-'end(new json_object_t(''{"msg": "Geboortedatum mag niet leeg zijn.", "item": "P10_GEBOORTEDATUM"}''));',
+'        l_errors_arr.append(new json_object_t(''{"msg": "Geboortedatum mag niet leeg zijn.", "item": "P10_GEBOORTEDATUM"}''));',
 '     end if;',
 '     if pi_clss_id is null then',
 '        l_errors_arr.append(new json_object_t(''{"msg": "Klas mag niet leeg zijn.", "item": "P10_KLAS"}''));',
@@ -61664,1421 +61869,1481 @@ end;
 /
 begin
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16634935864367932)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18185814101770109)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
+,p_object_owner=>'#OWNER#'
+,p_object_type=>'FUNCTION'
+,p_object_name=>'FETCH_EXAMPLE'
+,p_last_updated_by=>'STA'
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
+,p_created_by=>'STA'
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
+);
+wwv_flow_imp_shared.create_install_object(
+ p_id=>wwv_flow_imp.id(18186042184770113)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
+,p_object_owner=>'#OWNER#'
+,p_object_type=>'FUNCTION'
+,p_object_name=>'FUNC'
+,p_last_updated_by=>'STA'
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
+,p_created_by=>'STA'
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
+);
+wwv_flow_imp_shared.create_install_object(
+ p_id=>wwv_flow_imp.id(18186207334770113)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
+,p_object_owner=>'#OWNER#'
+,p_object_type=>'FUNCTION'
+,p_object_name=>'GEN_SALT'
+,p_last_updated_by=>'STA'
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
+,p_created_by=>'STA'
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
+);
+wwv_flow_imp_shared.create_install_object(
+ p_id=>wwv_flow_imp.id(18186412392770113)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
+,p_object_owner=>'#OWNER#'
+,p_object_type=>'FUNCTION'
+,p_object_name=>'HASH_SYNC'
+,p_last_updated_by=>'STA'
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
+,p_created_by=>'STA'
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
+);
+wwv_flow_imp_shared.create_install_object(
+ p_id=>wwv_flow_imp.id(18186619782770113)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
+,p_object_owner=>'#OWNER#'
+,p_object_type=>'FUNCTION'
+,p_object_name=>'HELLO'
+,p_last_updated_by=>'STA'
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
+,p_created_by=>'STA'
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
+);
+wwv_flow_imp_shared.create_install_object(
+ p_id=>wwv_flow_imp.id(18186815525770113)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_ANMT_PK'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16635195702367933)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18187014582770113)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_AUTH_IX1'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16635320756367933)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18187248772770113)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_AUTH_PK'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16635555544367933)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18187434862770113)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_AUTH_PVE_PK'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16635737625367934)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18187677662770113)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
+,p_object_owner=>'#OWNER#'
+,p_object_type=>'INDEX'
+,p_object_name=>'STA_AUTH_PVE_UK1'
+,p_last_updated_by=>'STA'
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
+,p_created_by=>'STA'
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
+);
+wwv_flow_imp_shared.create_install_object(
+ p_id=>wwv_flow_imp.id(18187875683770113)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_AUTH_UK1'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16635991614367934)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18188024514770113)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_CLSS_IX1'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16636128617367934)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18188240122770113)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_CLSS_PK'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16636378055367934)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18188424804770113)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_CRSE_CLSS_TCHR_PK'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16636583026367934)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18188691233770113)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_CRSE_CLSS_TCHR_UK1'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16636722138367934)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18188893258770114)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_CRSE_GRDE_PK'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16636976341367934)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18189067970770114)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_CRSE_GRDE_UK1'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16637124040367934)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18189274471770114)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_CRSE_IX1'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16637360026367934)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18189428119770114)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_CRSE_PK'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16637526419367934)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18189614082770114)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_GRDE_IX1'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16637755938367934)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18189865829770114)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_GRDE_PK'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16637963584367934)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18190030897770114)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_PVE_IX1'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16638138435367934)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18190295844770114)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_PVE_PK'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16638352965367935)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18190442243770114)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_RLE_IX1'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16638519812367935)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18190669159770114)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_RLE_PK'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16638713152367935)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18190858870770114)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_RLE_PVE_PK'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16638916644367935)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18191039103770114)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_RLE_PVE_UK1'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16639119476367935)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18191281168770114)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_SDNT_RMK_PK'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16639307913367935)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18191445803770114)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_SDNT_TST_PK'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16639529526367935)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18191694112770115)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_SMSR_ID1'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16639774437367935)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18191851048770115)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
+,p_object_owner=>'#OWNER#'
+,p_object_type=>'INDEX'
+,p_object_name=>'STA_SMSR_IX2'
+,p_last_updated_by=>'STA'
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
+,p_created_by=>'STA'
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
+);
+wwv_flow_imp_shared.create_install_object(
+ p_id=>wwv_flow_imp.id(18192083010770115)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_SMSR_PK'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16639905140367935)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18192297386770115)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_SMSR_UK1'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16640143725367935)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18192496031770115)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
+,p_object_owner=>'#OWNER#'
+,p_object_type=>'INDEX'
+,p_object_name=>'STA_SMSR_UK2'
+,p_last_updated_by=>'STA'
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
+,p_created_by=>'STA'
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
+);
+wwv_flow_imp_shared.create_install_object(
+ p_id=>wwv_flow_imp.id(18192616055770115)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
+,p_object_owner=>'#OWNER#'
+,p_object_type=>'INDEX'
+,p_object_name=>'STA_SMSR_UK3'
+,p_last_updated_by=>'STA'
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
+,p_created_by=>'STA'
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
+);
+wwv_flow_imp_shared.create_install_object(
+ p_id=>wwv_flow_imp.id(18192820553770115)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_SYPA_IDX1'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16640350548367935)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18193080787770115)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_SYPA_PK'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16640569816367935)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18193289537770115)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_TST_IX1'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16640750468367935)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18193460426770115)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_TST_PK'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16640907143367935)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18193610029770115)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_USR_IX2'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16641180168367935)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18193889303770115)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_USR_PK'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16641378736367935)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18194001936770115)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'INDEX'
 ,p_object_name=>'STA_USR_RLE_PK'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16641500624367935)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18194281983770115)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
+,p_object_owner=>'#OWNER#'
+,p_object_type=>'INDEX'
+,p_object_name=>'STA_USR_RLE_UK1'
+,p_last_updated_by=>'STA'
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
+,p_created_by=>'STA'
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
+);
+wwv_flow_imp_shared.create_install_object(
+ p_id=>wwv_flow_imp.id(18194489311770116)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'PACKAGE'
 ,p_object_name=>'STA_APP_SECURITY'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16641724068367935)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18194622247770116)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'PACKAGE'
 ,p_object_name=>'STA_AUTH'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16641956883367935)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18194888142770116)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'PACKAGE'
 ,p_object_name=>'STA_CRSE'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16642177137367936)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18195024186770116)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'PACKAGE'
 ,p_object_name=>'STA_CRSE_CLSS_TCHR'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16642331338367936)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18195293186770116)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'PACKAGE'
 ,p_object_name=>'STA_DDL_CLEANUP'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16642550765367936)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18195442080770116)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'PACKAGE'
 ,p_object_name=>'STA_ERROR_HANDLER'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16642793533367936)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18195667899770116)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'PACKAGE'
 ,p_object_name=>'STA_GIT'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16642943087367936)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18195808333770116)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'PACKAGE'
 ,p_object_name=>'STA_JOURNAL_API'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16643125661367936)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18196065216770116)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'PACKAGE'
 ,p_object_name=>'STA_RLE'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16643328470367936)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18196200873770116)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'PACKAGE'
 ,p_object_name=>'STA_SDNT_TST'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16643535241367936)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18196447572770116)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'PACKAGE'
 ,p_object_name=>'STA_SYPA'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16643778483367936)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18196696103770116)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'PACKAGE'
 ,p_object_name=>'STA_USR'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16643996644367936)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18196845974770116)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_83098'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16644161446367936)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18197042299770116)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_83106'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16644332272367936)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18197282203770116)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_83110'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16644549067367936)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18197428378770116)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_83139'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16644783232367937)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18197683623770116)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_83152'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16644953115367937)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18197869374770116)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_83156'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16645138754367937)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18198027246770117)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_84246'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16645353930367937)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18198229580770117)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_84261'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16645545372367937)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18198483284770117)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_84265'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16645767665367937)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18198606612770117)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_85018'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16645963790367937)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18198862387770117)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_85022'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16646126084367937)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18199030454770117)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_85411'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16646352401367938)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18199205332770117)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_85416'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16646502496367938)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18199424372770117)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_86536'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16646771851367938)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18199672588770117)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_86540'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16646961067367938)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18199891745770117)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_86544'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16647173614367938)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18200071198770117)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_86548'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16647345676367938)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18200257418770117)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_86552'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16647542054367938)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18200400935770118)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_86559'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16647763852367938)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18200611143770118)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_86566'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16647967611367938)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18200888275770118)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_86570'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16648103078367938)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18201071340770118)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_86574'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16648354101367938)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18201283527770118)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_86579'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16648506627367938)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18201481544770118)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_86584'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16648756665367938)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18201675079770118)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_86590'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16648903864367938)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18201844150770118)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_86593'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16649198063367938)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18202007336770118)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_86597'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
+end;
+/
+begin
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16649322462367938)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18202285152770118)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_86615'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16649564396367938)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18202436096770118)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_86746'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16649766878367938)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18202616515770118)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_86751'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16649961862367938)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18202843438770118)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_86755'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16650106000367938)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18203072670770118)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_86759'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16650303770367938)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18203206987770118)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_87306'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16650531215367938)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18203449925770119)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_87309'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16650787391367939)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18203608215770119)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_87312'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16650991437367939)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18203887686770119)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_87316'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16651196783367939)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18204061037770119)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_87320'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
-end;
-/
-begin
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16651353111367939)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18204241514770119)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_87324'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16651591094367939)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18204499300770119)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_87327'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16651750630367939)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18204692977770119)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_87331'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16651929485367939)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18204827247770119)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_87335'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16652179863367939)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18205061454770119)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_87339'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16652396516367939)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18205252068770119)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_87343'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16652500214367939)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18205456376770119)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_87356'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16652789486367939)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18205653681770119)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_87360'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16652931074367939)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18205827566770119)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_87364'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16653138382367939)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18206090413770119)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_87371'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16653329815367939)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18206209943770119)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_87374'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16653591665367940)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18206454399770120)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_87378'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16653713715367940)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18206636853770120)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_87381'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16653990154367940)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18206881684770120)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_87925'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16654159588367940)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18207044843770120)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_87930'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16654335676367940)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18207287287770121)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_87933'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16654548715367940)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18207454365770121)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_92613'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16654750297367940)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18207631947770121)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_93192'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16654949629367940)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18207853997770121)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_96554'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16655117419367940)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18208083580770121)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'SEQUENCE'
 ,p_object_name=>'ISEQ$$_98037'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16655305564367940)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18208226622770121)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'TABLE'
 ,p_object_name=>'STA_ANNOUNCEMENT'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16655566147367940)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18208498305770121)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'TABLE'
 ,p_object_name=>'STA_AUTHORIZATION'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16655787280367940)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18208654089770121)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'TABLE'
 ,p_object_name=>'STA_AUTHORIZATION_PRIVILEGE'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16655994808367940)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18208889797770121)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'TABLE'
 ,p_object_name=>'STA_CLASS'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16656148546367940)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18209009643770121)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'TABLE'
 ,p_object_name=>'STA_COURSE'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16656394591367940)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18209206034770121)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'TABLE'
 ,p_object_name=>'STA_COURSE_CLASS_TEACHER'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16656500996367941)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18209467249770121)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'TABLE'
 ,p_object_name=>'STA_COURSE_GRADE'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16656723191367941)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18209639365770122)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'TABLE'
 ,p_object_name=>'STA_GRADE'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16656959699367941)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18209879409770122)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'TABLE'
 ,p_object_name=>'STA_PRIVILEGE'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16657136340367941)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18210004572770123)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'TABLE'
 ,p_object_name=>'STA_ROLE'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16657315273367941)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18210203998770123)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'TABLE'
 ,p_object_name=>'STA_ROLE_PRIVILEGE'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16657517332367941)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18210469174770123)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'TABLE'
 ,p_object_name=>'STA_SEMESTER'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16657799118367941)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18210611109770123)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'TABLE'
 ,p_object_name=>'STA_STUDENT_REMARK'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16657907443367941)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18210800079770123)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'TABLE'
 ,p_object_name=>'STA_STUDENT_TEST'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16658130661367941)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18211091641770123)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'TABLE'
 ,p_object_name=>'STA_SYSTEM_PARAMETER'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16658356064367941)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18211280480770123)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'TABLE'
 ,p_object_name=>'STA_TEST'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16658546704367941)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18211447437770123)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'TABLE'
 ,p_object_name=>'STA_USER'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16658790038367941)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18211602953770123)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'TABLE'
 ,p_object_name=>'STA_USER_ROLE'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16658909693367941)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18211829810770123)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'VIEW'
 ,p_object_name=>'STA_VW_CARETAKER'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16659139541367941)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18212065193770123)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'VIEW'
 ,p_object_name=>'STA_VW_STUDENT'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16659311685367941)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18212205338770123)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'VIEW'
 ,p_object_name=>'STA_VW_TEACHER'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 wwv_flow_imp_shared.create_install_object(
- p_id=>wwv_flow_imp.id(16659526236367941)
-,p_script_id=>wwv_flow_imp.id(16634836605367910)
+ p_id=>wwv_flow_imp.id(18212410859770123)
+,p_script_id=>wwv_flow_imp.id(18185759404770107)
 ,p_object_owner=>'#OWNER#'
 ,p_object_type=>'VIEW'
 ,p_object_name=>'STA_VW_USER_AUTHENTICATION'
 ,p_last_updated_by=>'STA'
-,p_last_updated_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
+,p_last_updated_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 ,p_created_by=>'STA'
-,p_created_on=>to_date('20240530150150','YYYYMMDDHH24MISS')
-);
-end;
-/
-prompt --application/deployment/install/install_sta_data
-begin
-wwv_flow_imp_shared.create_install_script(
- p_id=>wwv_flow_imp.id(18185060091447139)
-,p_install_id=>wwv_flow_imp.id(8134348940583144)
-,p_name=>'sta_data'
-,p_sequence=>40
-,p_script_type=>'INSTALL'
-,p_script_clob=>wwv_flow_string.join(wwv_flow_t_varchar2(
-'begin',
-'    --STA_ANNOUNCEMENT: 5/10000 rows exported, APEX$DATA$PKG/STA_ANNOUNCEMENT$751294',
-'    apex_data_install.load_supporting_object_data(p_table_name => ''STA_ANNOUNCEMENT'', p_delete_after_install => true );',
-'    --STA_AUTHORIZATION: 32/10000 rows exported, APEX$DATA$PKG/STA_AUTHORIZATION$641367',
-'    apex_data_install.load_supporting_object_data(p_table_name => ''STA_AUTHORIZATION'', p_delete_after_install => true );',
-'    --STA_AUTHORIZATION_PRIVILEGE: 45/10000 rows exported, APEX$DATA$PKG/STA_AUTHORIZATION_PRIVIL$212628',
-'    apex_data_install.load_supporting_object_data(p_table_name => ''STA_AUTHORIZATION_PRIVILEGE'', p_delete_after_install => true );',
-'    --STA_CLASS: 9/10000 rows exported, APEX$DATA$PKG/STA_CLASS$848910',
-'    apex_data_install.load_supporting_object_data(p_table_name => ''STA_CLASS'', p_delete_after_install => true );',
-'    --STA_COURSE: 15/10000 rows exported, APEX$DATA$PKG/STA_COURSE$892215',
-'    apex_data_install.load_supporting_object_data(p_table_name => ''STA_COURSE'', p_delete_after_install => true );',
-'    --STA_COURSE_CLASS_TEACHER: 14/10000 rows exported, APEX$DATA$PKG/STA_COURSE_CLASS_TEACHER$850000',
-'    apex_data_install.load_supporting_object_data(p_table_name => ''STA_COURSE_CLASS_TEACHER'', p_delete_after_install => true );',
-'    --STA_COURSE_GRADE: 52/10000 rows exported, APEX$DATA$PKG/STA_COURSE_GRADE$700415',
-'    apex_data_install.load_supporting_object_data(p_table_name => ''STA_COURSE_GRADE'', p_delete_after_install => true );',
-'    --STA_GRADE: 9/10000 rows exported, APEX$DATA$PKG/STA_GRADE$489039',
-'    apex_data_install.load_supporting_object_data(p_table_name => ''STA_GRADE'', p_delete_after_install => true );',
-'    --STA_PRIVILEGE: 8/10000 rows exported, APEX$DATA$PKG/STA_PRIVILEGE$910646',
-'    apex_data_install.load_supporting_object_data(p_table_name => ''STA_PRIVILEGE'', p_delete_after_install => true );',
-'    --STA_ROLE: 5/10000 rows exported, APEX$DATA$PKG/STA_ROLE$642314',
-'    apex_data_install.load_supporting_object_data(p_table_name => ''STA_ROLE'', p_delete_after_install => true );',
-'    --STA_ROLE_PRIVILEGE: 17/10000 rows exported, APEX$DATA$PKG/STA_ROLE_PRIVILEGE$79605',
-'    apex_data_install.load_supporting_object_data(p_table_name => ''STA_ROLE_PRIVILEGE'', p_delete_after_install => true );',
-'    --STA_SEMESTER: 3/10000 rows exported, APEX$DATA$PKG/STA_SEMESTER$928950',
-'    apex_data_install.load_supporting_object_data(p_table_name => ''STA_SEMESTER'', p_delete_after_install => true );',
-'    --STA_STUDENT_REMARK: 4/10000 rows exported, APEX$DATA$PKG/STA_STUDENT_REMARK$928124',
-'    apex_data_install.load_supporting_object_data(p_table_name => ''STA_STUDENT_REMARK'', p_delete_after_install => true );',
-'    --STA_STUDENT_TEST: 47/10000 rows exported, APEX$DATA$PKG/STA_STUDENT_TEST$59019',
-'    apex_data_install.load_supporting_object_data(p_table_name => ''STA_STUDENT_TEST'', p_delete_after_install => true );',
-'    --STA_SYSTEM_PARAMETER: 2/10000 rows exported, APEX$DATA$PKG/STA_SYSTEM_PARAMETER$30756',
-'    apex_data_install.load_supporting_object_data(p_table_name => ''STA_SYSTEM_PARAMETER'', p_delete_after_install => true );',
-'    --STA_TEST: 15/10000 rows exported, APEX$DATA$PKG/STA_TEST$929148',
-'    apex_data_install.load_supporting_object_data(p_table_name => ''STA_TEST'', p_delete_after_install => true );',
-'    --STA_USER: 31/10000 rows exported, APEX$DATA$PKG/STA_USER$420519',
-'    apex_data_install.load_supporting_object_data(p_table_name => ''STA_USER'', p_delete_after_install => true );',
-'    --STA_USER_ROLE: 32/10000 rows exported, APEX$DATA$PKG/STA_USER_ROLE$381775',
-'    apex_data_install.load_supporting_object_data(p_table_name => ''STA_USER_ROLE'', p_delete_after_install => true );',
-'end;'))
+,p_created_on=>to_date('20240602192400','YYYYMMDDHH24MISS')
 );
 end;
 /
