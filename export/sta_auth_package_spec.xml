@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+	<changeSet id="81c6c6aa3bed965c657935aceced3a3230736a73" author="(STA)-Generated" failOnError="false"   runOnChange="false" runAlways="false"  >
+		<n0:createOraclePackageSpec objectName="STA_AUTH" objectType="PACKAGE_SPEC" ownerName="STA"  replaceIfExists="false" >
+			<n0:source><![CDATA[CREATE OR REPLACE EDITIONABLE PACKAGE "%USER_NAME%"."STA_AUTH" 
+is
+    -- procedure used to upsert privileges
+    -- And couple the authorizations to the privileges
+    procedure upsert_pve( pi_id          sta_privilege.id%type
+                        , pi_name        sta_privilege.name%type
+                        , pi_description sta_privilege.description%type
+                        , pi_auths       varchar2
+                        );
+
+    procedure delete_pve( pi_id sta_privilege.id%type);
+
+    -- procedure used to upsert authorizations
+    -- Not used(but keeping just in case)
+    procedure upsert_auth( pi_id                   sta_authorization.id%type
+                       , pi_apex_component_type    sta_authorization.apex_component_type%type 
+                       , pi_name                   sta_authorization.name%type
+                       , pi_apex_component_name    sta_authorization.apex_component_name%type
+                       , pi_apex_page              sta_authorization.apex_page%type
+                    --    , pi_row_operation          sta_authorization.apex_page%type
+                       );
+
+    procedure delete_auth( pi_id sta_authorization.id%type);
+
+
+    -- function used on page 28 to generate the name based on the chosen type, page, component name, row operation(if IG) and read only 
+    function f_generate_authorization_name( pi_apex_component_type varchar2
+                                          , pi_apex_component_name sta_authorization.apex_component_name%type
+                                          , pi_apex_page           sta_authorization.apex_page%type
+                                          , pi_row_operation       sta_authorization.row_operation%type
+                                          , pi_read_only           sta_authorization.read_only%type
+                                          )return sta_authorization.name%type;
+
+
+
+end sta_auth;
+/]]></n0:source>
+		</n0:createOraclePackageSpec>
+	</changeSet>
+</databaseChangeLog>

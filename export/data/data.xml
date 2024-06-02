@@ -1,0 +1,391 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="pnl14u85 (generated)" id="1717352315363-1">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="data/sta_course.csv" quotchar="&quot;" separator="," tableName="STA_COURSE">
+            <column header="ID" name="ID" type="NUMERIC"/>
+            <column header="NAME" name="NAME" type="STRING"/>
+            <column header="DESCRIPTION" name="DESCRIPTION" type="skip"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="pnl14u85 (generated)" id="1717352315363-2">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="data/sta_grade.csv" quotchar="&quot;" separator="," tableName="STA_GRADE">
+            <column header="ID" name="ID" type="NUMERIC"/>
+            <column header="NAME" name="NAME" type="STRING"/>
+            <column header="DESCRIPTION" name="DESCRIPTION" type="STRING"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="pnl14u85 (generated)" id="1717352315363-3">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="data/sta_course_grade.csv" quotchar="&quot;" separator="," tableName="STA_COURSE_GRADE">
+            <column header="ID" name="ID" type="NUMERIC"/>
+            <column header="CRSE_ID" name="CRSE_ID" type="NUMERIC"/>
+            <column header="GRDE_ID" name="GRDE_ID" type="NUMERIC"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="pnl14u85 (generated)" id="1717352315363-4">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="data/sta_user.csv" quotchar="&quot;" separator="," tableName="STA_USER">
+            <column header="ID" name="ID" type="NUMERIC"/>
+            <column header="FIRST_NAME" name="FIRST_NAME" type="STRING"/>
+            <column header="LAST_NAME" name="LAST_NAME" type="STRING"/>
+            <column header="DATE_OF_BIRTH" name="DATE_OF_BIRTH" type="DATE"/>
+            <column header="ADDRESS1" name="ADDRESS1" type="STRING"/>
+            <column header="ADDRESS2" name="ADDRESS2" type="STRING"/>
+            <column header="PHONE_NUMBER1" name="PHONE_NUMBER1" type="STRING"/>
+            <column header="PHONE_NUMBER2" name="PHONE_NUMBER2" type="skip"/>
+            <column header="REMARKS" name="REMARKS" type="skip"/>
+            <column header="EMAIL" name="EMAIL" type="STRING"/>
+            <column header="PASSWORD" name="PASSWORD" type="STRING"/>
+            <column header="DELETED_FLG" name="DELETED_FLG" type="NUMERIC"/>
+            <column header="CLSS_ID" name="CLSS_ID" type="NUMERIC"/>
+            <column header="CTKR_ID" name="CTKR_ID" type="NUMERIC"/>
+            <column header="GENDER" name="GENDER" type="STRING"/>
+            <column header="REGISTRATION_YEAR" name="REGISTRATION_YEAR" type="STRING"/>
+            <column header="DEREGISTRATION_YEAR" name="DEREGISTRATION_YEAR" type="skip"/>
+            <column header="ORIGIN_SCHOOL" name="ORIGIN_SCHOOL" type="skip"/>
+            <column header="SALT" name="SALT" type="STRING"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="pnl14u85 (generated)" id="1717352315363-5">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="data/sta_role.csv" quotchar="&quot;" separator="," tableName="STA_ROLE">
+            <column header="ID" name="ID" type="NUMERIC"/>
+            <column header="NAME" name="NAME" type="STRING"/>
+            <column header="DESCRIPTION" name="DESCRIPTION" type="skip"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="pnl14u85 (generated)" id="1717352315363-6">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="data/sta_user_role.csv" quotchar="&quot;" separator="," tableName="STA_USER_ROLE">
+            <column header="ID" name="ID" type="NUMERIC"/>
+            <column header="USR_ID" name="USR_ID" type="NUMERIC"/>
+            <column header="RLE_ID" name="RLE_ID" type="NUMERIC"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="pnl14u85 (generated)" id="1717352315363-7">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="data/sta_privilege.csv" quotchar="&quot;" separator="," tableName="STA_PRIVILEGE">
+            <column header="ID" name="ID" type="NUMERIC"/>
+            <column header="NAME" name="NAME" type="STRING"/>
+            <column header="DESCRIPTION" name="DESCRIPTION" type="skip"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="pnl14u85 (generated)" id="1717352315363-8">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="data/sta_class.csv" quotchar="&quot;" separator="," tableName="STA_CLASS">
+            <column header="ID" name="ID" type="NUMERIC"/>
+            <column header="NAME" name="NAME" type="STRING"/>
+            <column header="GRDE_ID" name="GRDE_ID" type="NUMERIC"/>
+            <column header="USR_ID" name="USR_ID" type="NUMERIC"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="pnl14u85 (generated)" id="1717352315363-9">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="data/sta_student_test.csv" quotchar="&quot;" separator="," tableName="STA_STUDENT_TEST">
+            <column header="ID" name="ID" type="NUMERIC"/>
+            <column header="USR_ID" name="USR_ID" type="NUMERIC"/>
+            <column header="TST_ID" name="TST_ID" type="NUMERIC"/>
+            <column header="RESULT" name="RESULT" type="STRING"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="pnl14u85 (generated)" id="1717352315363-10">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="data/sta_authorization.csv" quotchar="&quot;" separator="," tableName="STA_AUTHORIZATION">
+            <column header="ID" name="ID" type="NUMERIC"/>
+            <column header="NAME" name="NAME" type="STRING"/>
+            <column header="APEX_COMPONENT_NAME" name="APEX_COMPONENT_NAME" type="STRING"/>
+            <column header="APEX_PAGE" name="APEX_PAGE" type="NUMERIC"/>
+            <column header="APEX_COMPONENT_TYPE" name="APEX_COMPONENT_TYPE" type="STRING"/>
+            <column header="ROW_OPERATION" name="ROW_OPERATION" type="STRING"/>
+            <column header="READ_ONLY" name="READ_ONLY" type="NUMERIC"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="pnl14u85 (generated)" id="1717352315363-11">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="data/sta_authorization_privilege.csv" quotchar="&quot;" separator="," tableName="STA_AUTHORIZATION_PRIVILEGE">
+            <column header="ID" name="ID" type="NUMERIC"/>
+            <column header="AUTH_ID" name="AUTH_ID" type="NUMERIC"/>
+            <column header="PVE_ID" name="PVE_ID" type="NUMERIC"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="pnl14u85 (generated)" id="1717352315363-12">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="data/sta_role_privilege.csv" quotchar="&quot;" separator="," tableName="STA_ROLE_PRIVILEGE">
+            <column header="ID" name="ID" type="NUMERIC"/>
+            <column header="RLE_ID" name="RLE_ID" type="NUMERIC"/>
+            <column header="PVE_ID" name="PVE_ID" type="NUMERIC"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="pnl14u85 (generated)" id="1717352315363-13">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="data/sta_system_parameter.csv" quotchar="&quot;" separator="," tableName="STA_SYSTEM_PARAMETER">
+            <column header="ID" name="ID" type="NUMERIC"/>
+            <column header="PARAMETER" name="PARAMETER" type="STRING"/>
+            <column header="VALUE" name="VALUE" type="STRING"/>
+            <column header="SHOW_IND" name="SHOW_IND" type="NUMERIC"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="pnl14u85 (generated)" id="1717352315363-14">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="data/sta_student_remark.csv" quotchar="&quot;" separator="," tableName="STA_STUDENT_REMARK">
+            <column header="ID" name="ID" type="NUMERIC"/>
+            <column header="USR_ID" name="USR_ID" type="NUMERIC"/>
+            <column header="REMARK" name="REMARK" type="STRING"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="pnl14u85 (generated)" id="1717352315363-15">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="data/sta_course_class_teacher.csv" quotchar="&quot;" separator="," tableName="STA_COURSE_CLASS_TEACHER">
+            <column header="ID" name="ID" type="NUMERIC"/>
+            <column header="CRSE_ID" name="CRSE_ID" type="NUMERIC"/>
+            <column header="CLSS_ID" name="CLSS_ID" type="NUMERIC"/>
+            <column header="USR_ID" name="USR_ID" type="NUMERIC"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="pnl14u85 (generated)" id="1717352315363-16">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="data/esql_1282.csv" quotchar="&quot;" separator="," tableName="ESQL_1282">
+            <column header="ABORT_STEP" name="ABORT_STEP" type="NUMERIC"/>
+            <column header="ACCESS_METHOD" name="ACCESS_METHOD" type="STRING"/>
+            <column header="ANCESTOR_OBJECT_NAME" name="ANCESTOR_OBJECT_NAME" type="STRING"/>
+            <column header="ANCESTOR_OBJECT_SCHEMA" name="ANCESTOR_OBJECT_SCHEMA" type="STRING"/>
+            <column header="ANCESTOR_OBJECT_TYPE" name="ANCESTOR_OBJECT_TYPE" type="STRING"/>
+            <column header="ANCESTOR_PROCESS_ORDER" name="ANCESTOR_PROCESS_ORDER" type="skip"/>
+            <column header="BASE_OBJECT_NAME" name="BASE_OBJECT_NAME" type="STRING"/>
+            <column header="BASE_OBJECT_SCHEMA" name="BASE_OBJECT_SCHEMA" type="STRING"/>
+            <column header="BASE_OBJECT_TYPE" name="BASE_OBJECT_TYPE" type="STRING"/>
+            <column header="BASE_PROCESS_ORDER" name="BASE_PROCESS_ORDER" type="NUMERIC"/>
+            <column header="BLOCK_SIZE" name="BLOCK_SIZE" type="NUMERIC"/>
+            <column header="CLUSTER_OK" name="CLUSTER_OK" type="NUMERIC"/>
+            <column header="COMPLETED_BYTES" name="COMPLETED_BYTES" type="NUMERIC"/>
+            <column header="COMPLETED_ROWS" name="COMPLETED_ROWS" type="NUMERIC"/>
+            <column header="COMPLETION_TIME" name="COMPLETION_TIME" type="DATE"/>
+            <column header="CONTROL_QUEUE" name="CONTROL_QUEUE" type="STRING"/>
+            <column header="CREATION_LEVEL" name="CREATION_LEVEL" type="NUMERIC"/>
+            <column header="CREATION_TIME" name="CREATION_TIME" type="DATE"/>
+            <column header="CUMULATIVE_TIME" name="CUMULATIVE_TIME" type="NUMERIC"/>
+            <column header="DATA_BUFFER_SIZE" name="DATA_BUFFER_SIZE" type="NUMERIC"/>
+            <column header="DATA_IO" name="DATA_IO" type="NUMERIC"/>
+            <column header="DATAOBJ_NUM" name="DATAOBJ_NUM" type="NUMERIC"/>
+            <column header="DB_VERSION" name="DB_VERSION" type="STRING"/>
+            <column header="DEGREE" name="DEGREE" type="NUMERIC"/>
+            <column header="DOMAIN_PROCESS_ORDER" name="DOMAIN_PROCESS_ORDER" type="skip"/>
+            <column header="DUMP_ALLOCATION" name="DUMP_ALLOCATION" type="NUMERIC"/>
+            <column header="DUMP_FILEID" name="DUMP_FILEID" type="NUMERIC"/>
+            <column header="DUMP_LENGTH" name="DUMP_LENGTH" type="NUMERIC"/>
+            <column header="DUMP_ORIG_LENGTH" name="DUMP_ORIG_LENGTH" type="NUMERIC"/>
+            <column header="DUMP_POSITION" name="DUMP_POSITION" type="NUMERIC"/>
+            <column header="DUPLICATE" name="DUPLICATE" type="NUMERIC"/>
+            <column header="ELAPSED_TIME" name="ELAPSED_TIME" type="NUMERIC"/>
+            <column header="ERROR_COUNT" name="ERROR_COUNT" type="NUMERIC"/>
+            <column header="EXTEND_SIZE" name="EXTEND_SIZE" type="NUMERIC"/>
+            <column header="FILE_MAX_SIZE" name="FILE_MAX_SIZE" type="NUMERIC"/>
+            <column header="FILE_NAME" name="FILE_NAME" type="STRING"/>
+            <column header="FILE_TYPE" name="FILE_TYPE" type="NUMERIC"/>
+            <column header="FLAGS" name="FLAGS" type="NUMERIC"/>
+            <column header="GRANTOR" name="GRANTOR" type="STRING"/>
+            <column header="GRANULES" name="GRANULES" type="NUMERIC"/>
+            <column header="GUID" name="GUID" type="BLOB"/>
+            <column header="IN_PROGRESS" name="IN_PROGRESS" type="skip"/>
+            <column header="INSTANCE" name="INSTANCE" type="STRING"/>
+            <column header="INSTANCE_ID" name="INSTANCE_ID" type="NUMERIC"/>
+            <column header="IS_DEFAULT" name="IS_DEFAULT" type="NUMERIC"/>
+            <column header="JOB_MODE" name="JOB_MODE" type="STRING"/>
+            <column header="JOB_VERSION" name="JOB_VERSION" type="STRING"/>
+            <column header="LAST_FILE" name="LAST_FILE" type="skip"/>
+            <column header="LAST_UPDATE" name="LAST_UPDATE" type="DATE"/>
+            <column header="LOAD_METHOD" name="LOAD_METHOD" type="skip"/>
+            <column header="METADATA_BUFFER_SIZE" name="METADATA_BUFFER_SIZE" type="NUMERIC"/>
+            <column header="METADATA_IO" name="METADATA_IO" type="NUMERIC"/>
+            <column header="NAME" name="NAME" type="STRING"/>
+            <column header="OBJECT_INT_OID" name="OBJECT_INT_OID" type="skip"/>
+            <column header="OBJECT_LONG_NAME" name="OBJECT_LONG_NAME" type="STRING"/>
+            <column header="OBJECT_NAME" name="OBJECT_NAME" type="STRING"/>
+            <column header="OBJECT_NUMBER" name="OBJECT_NUMBER" type="NUMERIC"/>
+            <column header="OBJECT_PATH_SEQNO" name="OBJECT_PATH_SEQNO" type="NUMERIC"/>
+            <column header="OBJECT_ROW" name="OBJECT_ROW" type="NUMERIC"/>
+            <column header="OBJECT_SCHEMA" name="OBJECT_SCHEMA" type="STRING"/>
+            <column header="OBJECT_TABLESPACE" name="OBJECT_TABLESPACE" type="STRING"/>
+            <column header="OBJECT_TYPE" name="OBJECT_TYPE" type="STRING"/>
+            <column header="OBJECT_TYPE_PATH" name="OBJECT_TYPE_PATH" type="STRING"/>
+            <column header="OLD_VALUE" name="OLD_VALUE" type="skip"/>
+            <column header="OPERATION" name="OPERATION" type="STRING"/>
+            <column header="OPTION_TAG" name="OPTION_TAG" type="STRING"/>
+            <column header="ORIG_BASE_OBJECT_NAME" name="ORIG_BASE_OBJECT_NAME" type="STRING"/>
+            <column header="ORIG_BASE_OBJECT_SCHEMA" name="ORIG_BASE_OBJECT_SCHEMA" type="STRING"/>
+            <column header="ORIGINAL_OBJECT_NAME" name="ORIGINAL_OBJECT_NAME" type="STRING"/>
+            <column header="ORIGINAL_OBJECT_SCHEMA" name="ORIGINAL_OBJECT_SCHEMA" type="STRING"/>
+            <column header="PACKET_NUMBER" name="PACKET_NUMBER" type="skip"/>
+            <column header="PARALLELIZATION" name="PARALLELIZATION" type="NUMERIC"/>
+            <column header="PARENT_OBJECT_NAME" name="PARENT_OBJECT_NAME" type="skip"/>
+            <column header="PARENT_OBJECT_SCHEMA" name="PARENT_OBJECT_SCHEMA" type="skip"/>
+            <column header="PARENT_PROCESS_ORDER" name="PARENT_PROCESS_ORDER" type="skip"/>
+            <column header="PARTITION_NAME" name="PARTITION_NAME" type="skip"/>
+            <column header="PHASE" name="PHASE" type="NUMERIC"/>
+            <column header="PLATFORM" name="PLATFORM" type="STRING"/>
+            <column header="PROCESS_NAME" name="PROCESS_NAME" type="STRING"/>
+            <column header="PROCESS_ORDER" name="PROCESS_ORDER" type="NUMERIC"/>
+            <column header="PROCESSING_STATE" name="PROCESSING_STATE" type="STRING"/>
+            <column header="PROCESSING_STATUS" name="PROCESSING_STATUS" type="STRING"/>
+            <column header="PROPERTY" name="PROPERTY" type="NUMERIC"/>
+            <column header="PROXY_SCHEMA" name="PROXY_SCHEMA" type="skip"/>
+            <column header="PROXY_VIEW" name="PROXY_VIEW" type="STRING"/>
+            <column header="QUEUE_TABNUM" name="QUEUE_TABNUM" type="NUMERIC"/>
+            <column header="REMOTE_LINK" name="REMOTE_LINK" type="skip"/>
+            <column header="SCN" name="SCN" type="skip"/>
+            <column header="SEED" name="SEED" type="NUMERIC"/>
+            <column header="SERVICE_NAME" name="SERVICE_NAME" type="skip"/>
+            <column header="SIZE_ESTIMATE" name="SIZE_ESTIMATE" type="NUMERIC"/>
+            <column header="SRC_COMPAT" name="SRC_COMPAT" type="STRING"/>
+            <column header="START_TIME" name="START_TIME" type="DATE"/>
+            <column header="STATE" name="STATE" type="STRING"/>
+            <column header="STATUS_QUEUE" name="STATUS_QUEUE" type="STRING"/>
+            <column header="SUBPARTITION_NAME" name="SUBPARTITION_NAME" type="skip"/>
+            <column header="TARGET_XML_CLOB" name="TARGET_XML_CLOB" type="skip"/>
+            <column header="TDE_REWRAPPED_KEY" name="TDE_REWRAPPED_KEY" type="BLOB"/>
+            <column header="TEMPLATE_TABLE" name="TEMPLATE_TABLE" type="skip"/>
+            <column header="TIMEZONE" name="TIMEZONE" type="STRING"/>
+            <column header="TOTAL_BYTES" name="TOTAL_BYTES" type="NUMERIC"/>
+            <column header="TRIGFLAG" name="TRIGFLAG" type="NUMERIC"/>
+            <column header="UNLOAD_METHOD" name="UNLOAD_METHOD" type="NUMERIC"/>
+            <column header="USER_DIRECTORY" name="USER_DIRECTORY" type="STRING"/>
+            <column header="USER_FILE_NAME" name="USER_FILE_NAME" type="STRING"/>
+            <column header="USER_NAME" name="USER_NAME" type="STRING"/>
+            <column header="VALUE_N" name="VALUE_N" type="NUMERIC"/>
+            <column header="VALUE_T" name="VALUE_T" type="STRING"/>
+            <column header="VERSION" name="VERSION" type="NUMERIC"/>
+            <column header="WORK_ITEM" name="WORK_ITEM" type="STRING"/>
+            <column header="XML_CLOB" name="XML_CLOB" type="STRING"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="pnl14u85 (generated)" id="1717352315363-17">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="data/esql_1284.csv" quotchar="&quot;" separator="," tableName="ESQL_1284">
+            <column header="ABORT_STEP" name="ABORT_STEP" type="NUMERIC"/>
+            <column header="ACCESS_METHOD" name="ACCESS_METHOD" type="STRING"/>
+            <column header="ANCESTOR_OBJECT_NAME" name="ANCESTOR_OBJECT_NAME" type="STRING"/>
+            <column header="ANCESTOR_OBJECT_SCHEMA" name="ANCESTOR_OBJECT_SCHEMA" type="STRING"/>
+            <column header="ANCESTOR_OBJECT_TYPE" name="ANCESTOR_OBJECT_TYPE" type="STRING"/>
+            <column header="ANCESTOR_PROCESS_ORDER" name="ANCESTOR_PROCESS_ORDER" type="skip"/>
+            <column header="BASE_OBJECT_NAME" name="BASE_OBJECT_NAME" type="STRING"/>
+            <column header="BASE_OBJECT_SCHEMA" name="BASE_OBJECT_SCHEMA" type="STRING"/>
+            <column header="BASE_OBJECT_TYPE" name="BASE_OBJECT_TYPE" type="STRING"/>
+            <column header="BASE_PROCESS_ORDER" name="BASE_PROCESS_ORDER" type="NUMERIC"/>
+            <column header="BLOCK_SIZE" name="BLOCK_SIZE" type="NUMERIC"/>
+            <column header="CLUSTER_OK" name="CLUSTER_OK" type="NUMERIC"/>
+            <column header="COMPLETED_BYTES" name="COMPLETED_BYTES" type="NUMERIC"/>
+            <column header="COMPLETED_ROWS" name="COMPLETED_ROWS" type="NUMERIC"/>
+            <column header="COMPLETION_TIME" name="COMPLETION_TIME" type="DATE"/>
+            <column header="CONTROL_QUEUE" name="CONTROL_QUEUE" type="STRING"/>
+            <column header="CREATION_LEVEL" name="CREATION_LEVEL" type="NUMERIC"/>
+            <column header="CREATION_TIME" name="CREATION_TIME" type="DATE"/>
+            <column header="CUMULATIVE_TIME" name="CUMULATIVE_TIME" type="NUMERIC"/>
+            <column header="DATA_BUFFER_SIZE" name="DATA_BUFFER_SIZE" type="NUMERIC"/>
+            <column header="DATA_IO" name="DATA_IO" type="NUMERIC"/>
+            <column header="DATAOBJ_NUM" name="DATAOBJ_NUM" type="NUMERIC"/>
+            <column header="DB_VERSION" name="DB_VERSION" type="STRING"/>
+            <column header="DEGREE" name="DEGREE" type="NUMERIC"/>
+            <column header="DOMAIN_PROCESS_ORDER" name="DOMAIN_PROCESS_ORDER" type="skip"/>
+            <column header="DUMP_ALLOCATION" name="DUMP_ALLOCATION" type="NUMERIC"/>
+            <column header="DUMP_FILEID" name="DUMP_FILEID" type="NUMERIC"/>
+            <column header="DUMP_LENGTH" name="DUMP_LENGTH" type="NUMERIC"/>
+            <column header="DUMP_ORIG_LENGTH" name="DUMP_ORIG_LENGTH" type="NUMERIC"/>
+            <column header="DUMP_POSITION" name="DUMP_POSITION" type="NUMERIC"/>
+            <column header="DUPLICATE" name="DUPLICATE" type="NUMERIC"/>
+            <column header="ELAPSED_TIME" name="ELAPSED_TIME" type="NUMERIC"/>
+            <column header="ERROR_COUNT" name="ERROR_COUNT" type="NUMERIC"/>
+            <column header="EXTEND_SIZE" name="EXTEND_SIZE" type="NUMERIC"/>
+            <column header="FILE_MAX_SIZE" name="FILE_MAX_SIZE" type="NUMERIC"/>
+            <column header="FILE_NAME" name="FILE_NAME" type="STRING"/>
+            <column header="FILE_TYPE" name="FILE_TYPE" type="NUMERIC"/>
+            <column header="FLAGS" name="FLAGS" type="NUMERIC"/>
+            <column header="GRANTOR" name="GRANTOR" type="STRING"/>
+            <column header="GRANULES" name="GRANULES" type="NUMERIC"/>
+            <column header="GUID" name="GUID" type="BLOB"/>
+            <column header="IN_PROGRESS" name="IN_PROGRESS" type="skip"/>
+            <column header="INSTANCE" name="INSTANCE" type="STRING"/>
+            <column header="INSTANCE_ID" name="INSTANCE_ID" type="NUMERIC"/>
+            <column header="IS_DEFAULT" name="IS_DEFAULT" type="NUMERIC"/>
+            <column header="JOB_MODE" name="JOB_MODE" type="STRING"/>
+            <column header="JOB_VERSION" name="JOB_VERSION" type="STRING"/>
+            <column header="LAST_FILE" name="LAST_FILE" type="skip"/>
+            <column header="LAST_UPDATE" name="LAST_UPDATE" type="DATE"/>
+            <column header="LOAD_METHOD" name="LOAD_METHOD" type="skip"/>
+            <column header="METADATA_BUFFER_SIZE" name="METADATA_BUFFER_SIZE" type="NUMERIC"/>
+            <column header="METADATA_IO" name="METADATA_IO" type="NUMERIC"/>
+            <column header="NAME" name="NAME" type="STRING"/>
+            <column header="OBJECT_INT_OID" name="OBJECT_INT_OID" type="skip"/>
+            <column header="OBJECT_LONG_NAME" name="OBJECT_LONG_NAME" type="STRING"/>
+            <column header="OBJECT_NAME" name="OBJECT_NAME" type="STRING"/>
+            <column header="OBJECT_NUMBER" name="OBJECT_NUMBER" type="NUMERIC"/>
+            <column header="OBJECT_PATH_SEQNO" name="OBJECT_PATH_SEQNO" type="NUMERIC"/>
+            <column header="OBJECT_ROW" name="OBJECT_ROW" type="NUMERIC"/>
+            <column header="OBJECT_SCHEMA" name="OBJECT_SCHEMA" type="STRING"/>
+            <column header="OBJECT_TABLESPACE" name="OBJECT_TABLESPACE" type="STRING"/>
+            <column header="OBJECT_TYPE" name="OBJECT_TYPE" type="STRING"/>
+            <column header="OBJECT_TYPE_PATH" name="OBJECT_TYPE_PATH" type="STRING"/>
+            <column header="OLD_VALUE" name="OLD_VALUE" type="skip"/>
+            <column header="OPERATION" name="OPERATION" type="STRING"/>
+            <column header="OPTION_TAG" name="OPTION_TAG" type="STRING"/>
+            <column header="ORIG_BASE_OBJECT_NAME" name="ORIG_BASE_OBJECT_NAME" type="STRING"/>
+            <column header="ORIG_BASE_OBJECT_SCHEMA" name="ORIG_BASE_OBJECT_SCHEMA" type="STRING"/>
+            <column header="ORIGINAL_OBJECT_NAME" name="ORIGINAL_OBJECT_NAME" type="STRING"/>
+            <column header="ORIGINAL_OBJECT_SCHEMA" name="ORIGINAL_OBJECT_SCHEMA" type="STRING"/>
+            <column header="PACKET_NUMBER" name="PACKET_NUMBER" type="skip"/>
+            <column header="PARALLELIZATION" name="PARALLELIZATION" type="NUMERIC"/>
+            <column header="PARENT_OBJECT_NAME" name="PARENT_OBJECT_NAME" type="skip"/>
+            <column header="PARENT_OBJECT_SCHEMA" name="PARENT_OBJECT_SCHEMA" type="skip"/>
+            <column header="PARENT_PROCESS_ORDER" name="PARENT_PROCESS_ORDER" type="skip"/>
+            <column header="PARTITION_NAME" name="PARTITION_NAME" type="skip"/>
+            <column header="PHASE" name="PHASE" type="NUMERIC"/>
+            <column header="PLATFORM" name="PLATFORM" type="STRING"/>
+            <column header="PROCESS_NAME" name="PROCESS_NAME" type="STRING"/>
+            <column header="PROCESS_ORDER" name="PROCESS_ORDER" type="NUMERIC"/>
+            <column header="PROCESSING_STATE" name="PROCESSING_STATE" type="STRING"/>
+            <column header="PROCESSING_STATUS" name="PROCESSING_STATUS" type="STRING"/>
+            <column header="PROPERTY" name="PROPERTY" type="NUMERIC"/>
+            <column header="PROXY_SCHEMA" name="PROXY_SCHEMA" type="skip"/>
+            <column header="PROXY_VIEW" name="PROXY_VIEW" type="STRING"/>
+            <column header="QUEUE_TABNUM" name="QUEUE_TABNUM" type="NUMERIC"/>
+            <column header="REMOTE_LINK" name="REMOTE_LINK" type="skip"/>
+            <column header="SCN" name="SCN" type="skip"/>
+            <column header="SEED" name="SEED" type="NUMERIC"/>
+            <column header="SERVICE_NAME" name="SERVICE_NAME" type="skip"/>
+            <column header="SIZE_ESTIMATE" name="SIZE_ESTIMATE" type="NUMERIC"/>
+            <column header="SRC_COMPAT" name="SRC_COMPAT" type="STRING"/>
+            <column header="START_TIME" name="START_TIME" type="DATE"/>
+            <column header="STATE" name="STATE" type="STRING"/>
+            <column header="STATUS_QUEUE" name="STATUS_QUEUE" type="STRING"/>
+            <column header="SUBPARTITION_NAME" name="SUBPARTITION_NAME" type="skip"/>
+            <column header="TARGET_XML_CLOB" name="TARGET_XML_CLOB" type="skip"/>
+            <column header="TDE_REWRAPPED_KEY" name="TDE_REWRAPPED_KEY" type="BLOB"/>
+            <column header="TEMPLATE_TABLE" name="TEMPLATE_TABLE" type="skip"/>
+            <column header="TIMEZONE" name="TIMEZONE" type="STRING"/>
+            <column header="TOTAL_BYTES" name="TOTAL_BYTES" type="NUMERIC"/>
+            <column header="TRIGFLAG" name="TRIGFLAG" type="NUMERIC"/>
+            <column header="UNLOAD_METHOD" name="UNLOAD_METHOD" type="NUMERIC"/>
+            <column header="USER_DIRECTORY" name="USER_DIRECTORY" type="STRING"/>
+            <column header="USER_FILE_NAME" name="USER_FILE_NAME" type="STRING"/>
+            <column header="USER_NAME" name="USER_NAME" type="STRING"/>
+            <column header="VALUE_N" name="VALUE_N" type="NUMERIC"/>
+            <column header="VALUE_T" name="VALUE_T" type="STRING"/>
+            <column header="VERSION" name="VERSION" type="NUMERIC"/>
+            <column header="WORK_ITEM" name="WORK_ITEM" type="STRING"/>
+            <column header="XML_CLOB" name="XML_CLOB" type="STRING"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="pnl14u85 (generated)" id="1717352315363-18">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="data/sta_announcement.csv" quotchar="&quot;" separator="," tableName="STA_ANNOUNCEMENT">
+            <column header="ID" name="ID" type="NUMERIC"/>
+            <column header="TITLE" name="TITLE" type="STRING"/>
+            <column header="MESSAGE" name="MESSAGE" type="STRING"/>
+            <column header="STATUS" name="STATUS" type="STRING"/>
+            <column header="PRIORITY" name="PRIORITY" type="STRING"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="pnl14u85 (generated)" id="1717352315363-19">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="data/sta_semester.csv" quotchar="&quot;" separator="," tableName="STA_SEMESTER">
+            <column header="ID" name="ID" type="NUMERIC"/>
+            <column header="NAME" name="NAME" type="STRING"/>
+            <column header="SCHOOLYEAR" name="SCHOOLYEAR" type="STRING"/>
+            <column header="START_DATE" name="START_DATE" type="DATE"/>
+            <column header="END_DATE" name="END_DATE" type="DATE"/>
+            <column header="ACTIVE_IND" name="ACTIVE_IND" type="NUMERIC"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="pnl14u85 (generated)" id="1717352315363-20">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="data/sta_test.csv" quotchar="&quot;" separator="," tableName="STA_TEST">
+            <column header="ID" name="ID" type="NUMERIC"/>
+            <column header="NAME" name="NAME" type="STRING"/>
+            <column header="SMSR_ID" name="SMSR_ID" type="NUMERIC"/>
+            <column header="GRDE_ID" name="GRDE_ID" type="NUMERIC"/>
+            <column header="CRSE_ID" name="CRSE_ID" type="NUMERIC"/>
+            <column header="DATETIME_PLANNED" name="DATETIME_PLANNED" type="DATE"/>
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

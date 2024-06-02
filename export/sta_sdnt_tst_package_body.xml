@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+	<changeSet id="a0b7a7f136f5f0c018778223e0bcd9c0162496d2" author="(STA)-Generated" failOnError="false"   runOnChange="false" runAlways="false"  >
+		<n0:createOraclePackageBody objectName="STA_SDNT_TST" objectType="PACKAGE_BODY" ownerName="STA"  replaceIfExists="false" >
+			<n0:source><![CDATA[CREATE OR REPLACE EDITIONABLE PACKAGE BODY "%USER_NAME%"."STA_SDNT_TST" sta_sdnt_tst
+is
+  --global variables
+
+    function f_get_rslt( pi_sdnt_tst_id sta_student_test.id%type)return sta_student_test.result%type
+    is
+        cursor c_get_rslt(b_sdnt_tst_id sta_student_test.id%type) 
+        is
+            select result
+            from sta_student_test
+            where id = b_sdnt_tst_id;
+        l_rslt sta_student_test.result%type;
+    begin
+        open  c_get_rslt(pi_sdnt_tst_id);
+        fetch c_get_rslt into l_rslt;
+        close c_get_rslt;
+        return l_rslt;
+    end;
+
+    procedure p_delete_sdnt_tst( pi_sdnt_tst_id sta_student_test.id%type )
+    is
+    begin
+      delete from sta_student_test
+      where id = pi_sdnt_tst_id;
+    end p_delete_sdnt_tst;
+
+    procedure p_upsert_sdnt_tst( pi_sdnt_tst_id sta_student_test.id%type
+                               , pi_tst_id      sta_student_test.tst_id%type
+                               , pi_usr_id      sta_student_test.usr_id%type
+                               , pi_rslt        sta_student_test.result%type
+                               )
+    is
+    begin
+        if pi_sdnt_tst_id is null then
+
+            -- If result is 0 or null we basically treat test result as not made
+            -- For example if a student was sick and could not attend then a 0 will be entered as the result
+            if pi_rslt is null or pi_rslt = 0 then
+                return;
+            end if;
+
+            insert into sta_student_test (tst_id, usr_id, result)
+            values (pi_tst_id, pi_usr_id, pi_rslt);
+        else
+            -- If result is 0 or null we basically treat test result as not made
+            -- For example if a student was sick and could not attend then a 0 will be entered as the result
+            -- In the case of an update the row was already added meaning we will delete it and then return
+            if  pi_rslt is null or pi_rslt = 0 then
+                p_delete_sdnt_tst(pi_sdnt_tst_id => pi_sdnt_tst_id);
+                return;
+            end if;
+
+            update sta_student_test
+            set usr_id = pi_usr_id
+              , result = pi_rslt
+              , tst_id = pi_tst_id
+            where id = pi_sdnt_tst_id;
+        end if;
+    end p_upsert_sdnt_tst;
+
+
+
+    procedure p_process_sdnt_tst( pi_sdnt_tst_id sta_student_test.id%type
+                                , pi_usr_id      sta_student_test.usr_id%type
+                                , pi_tst_id      sta_student_test.tst_id%type
+                                , pi_rslt        sta_student_test.result%type
+                                , pi_action      varchar2
+                                )
+    is
+    begin
+        case pi_action
+            when 'C' then
+                p_upsert_sdnt_tst( pi_sdnt_tst_id => pi_sdnt_tst_id
+                                 , pi_usr_id      => pi_usr_id
+                                 , pi_tst_id      => pi_tst_id
+                                 , pi_rslt        => pi_rslt         
+                                 );
+
+            when 'U' then
+                p_upsert_sdnt_tst( pi_sdnt_tst_id => pi_sdnt_tst_id
+                                 , pi_usr_id      => pi_usr_id
+                                 , pi_tst_id      => pi_tst_id
+                                 , pi_rslt        => pi_rslt         
+                                 );
+
+            when 'D' then
+                p_delete_sdnt_tst(pi_sdnt_tst_id => pi_sdnt_tst_id);
+        end case;
+    end p_process_sdnt_tst;
+end ;
+/]]></n0:source>
+		</n0:createOraclePackageBody>
+	</changeSet>
+</databaseChangeLog>

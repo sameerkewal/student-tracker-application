@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+	<changeSet id="8b6b4b95de2532ac4f5800a585d4f7492ccdbb06" author="(STA)-Generated" failOnError="false"   runOnChange="false" runAlways="false"  >
+		<n0:createOraclePackageSpec objectName="STA_CRSE_CLSS_TCHR" objectType="PACKAGE_SPEC" ownerName="STA"  replaceIfExists="false" >
+			<n0:source><![CDATA[CREATE OR REPLACE EDITIONABLE PACKAGE "%USER_NAME%"."STA_CRSE_CLSS_TCHR" 
+    is
+        type t_crse_clss_tchr_rec is record( crse_id     sta_course.id%type
+                                        , classes_ids varchar2(4000)  -- Colon-delimited clss_ids
+                                        , action      varchar2(1)
+                                        );
+        type t_crse_clss_tchr_tab is table of t_crse_clss_tchr_rec;
+
+        procedure upsert_crse_clss_tchr( pi_usr_id             in sta_user.id%type
+                                    , pi_crse_clss_tchr_tab in t_crse_clss_tchr_tab
+                                        );
+
+        function f_tchr_subj_cnt(pi_id           in sta_user.id%type)
+        return number;
+    end sta_crse_clss_tchr;
+/]]></n0:source>
+		</n0:createOraclePackageSpec>
+	</changeSet>
+</databaseChangeLog>

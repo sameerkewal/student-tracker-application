@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+	<changeSet id="700ae571382297c884703c8846dfc7ca706db16f" author="(STA)-Generated" failOnError="false"   runOnChange="false" runAlways="false"  >
+		<n0:createSxmlObject objectName="STA_VW_CARETAKER" objectType="VIEW" ownerName="STA"  replaceIfExists="false" >
+			<n0:source><![CDATA[
+  <VIEW xmlns="http://xmlns.oracle.com/ku" version="1.0">
+   <SCHEMA>%USER_NAME%</SCHEMA>
+   <NAME>STA_VW_CARETAKER</NAME>
+   <DEFAULT_COLLATION>USING_NLS_COMP</DEFAULT_COLLATION>
+   <COL_LIST>
+      <COL_LIST_ITEM>
+         <NAME>ID</NAME>
+         <ANNOTATION_LIST></ANNOTATION_LIST>
+      </COL_LIST_ITEM>
+      <COL_LIST_ITEM>
+         <NAME>FIRST_NAME</NAME>
+         <ANNOTATION_LIST></ANNOTATION_LIST>
+      </COL_LIST_ITEM>
+      <COL_LIST_ITEM>
+         <NAME>LAST_NAME</NAME>
+         <ANNOTATION_LIST></ANNOTATION_LIST>
+      </COL_LIST_ITEM>
+      <COL_LIST_ITEM>
+         <NAME>ADDRESS1</NAME>
+         <ANNOTATION_LIST></ANNOTATION_LIST>
+      </COL_LIST_ITEM>
+      <COL_LIST_ITEM>
+         <NAME>ADDRESS2</NAME>
+         <ANNOTATION_LIST></ANNOTATION_LIST>
+      </COL_LIST_ITEM>
+      <COL_LIST_ITEM>
+         <NAME>PHONE_NUMBER1</NAME>
+         <ANNOTATION_LIST></ANNOTATION_LIST>
+      </COL_LIST_ITEM>
+      <COL_LIST_ITEM>
+         <NAME>PHONE_NUMBER2</NAME>
+         <ANNOTATION_LIST></ANNOTATION_LIST>
+      </COL_LIST_ITEM>
+      <COL_LIST_ITEM>
+         <NAME>REMARKS</NAME>
+         <ANNOTATION_LIST></ANNOTATION_LIST>
+      </COL_LIST_ITEM>
+   </COL_LIST>
+   <ANNOTATION_LIST></ANNOTATION_LIST>
+   <SUBQUERY>with w_caretaker as(
+        select usr.id 
+        ,      usr.first_name     
+        ,      usr.last_name      
+        ,      usr.address1       
+        ,      usr.address2       
+        ,      usr.phone_number1  
+        ,      usr.phone_number2
+        ,      usr.remarks
+        from    sta_user usr
+        join    sta_user_role usr_rle on usr.id = usr_rle.usr_id
+        join    sta_role rle on usr_rle.rle_id = rle.id
+        where   lower(rle.name) = lower('caretaker')
+        and     usr.deleted_flg = false
+    )
+    select "ID","FIRST_NAME","LAST_NAME","ADDRESS1","ADDRESS2","PHONE_NUMBER1","PHONE_NUMBER2","REMARKS" from w_caretaker</SUBQUERY>
+</VIEW>]]></n0:source>
+		</n0:createSxmlObject>
+	</changeSet>
+</databaseChangeLog>

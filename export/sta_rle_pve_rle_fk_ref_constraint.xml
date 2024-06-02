@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+	<changeSet id="fed468c6a3f31acce008b8c80bb94caa36e84916" author="(STA)-Generated" failOnError="false"   runOnChange="false" runAlways="false"  >
+		<n0:createOracleRefConstraint objectName="STA_RLE_PVE_RLE_FK" objectType="REF_CONSTRAINT" ownerName="STA"  replaceIfExists="false" >
+			<n0:source><![CDATA[ALTER TABLE "%USER_NAME%"."STA_ROLE_PRIVILEGE" ADD CONSTRAINT "STA_RLE_PVE_RLE_FK" FOREIGN KEY ("RLE_ID")
+	  REFERENCES "%USER_NAME%"."STA_ROLE" ("ID") ENABLE;]]></n0:source>
+		</n0:createOracleRefConstraint>
+	</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+	<changeSet id="bc671903791ec79b983d5bc8d2ebcde8f466cac7" author="(STA)-Generated" failOnError="false"   runOnChange="false" runAlways="false"  >
+		<n0:createOracleFunction objectName="FUNC" objectType="FUNCTION" ownerName="STA"  replaceIfExists="false" >
+			<n0:source><![CDATA[CREATE OR REPLACE EDITIONABLE FUNCTION "%USER_NAME%"."FUNC" func
+return varchar2
+as mle module bcrypt_impl env sta_env
+signature 'gen_salt()'
+;
+    /
+
+select id
+from   sta_role
+where  lower(name) = lower('leerkracht');
+/]]></n0:source>
+		</n0:createOracleFunction>
+	</changeSet>
+</databaseChangeLog>

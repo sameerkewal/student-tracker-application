@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+	<changeSet id="2258c703f6942025823385dd7cdd3b835b4a757d" author="(STA)-Generated" failOnError="false"   runOnChange="false" runAlways="false"  >
+		<n0:createOracleRefConstraint objectName="STA_CLSS_TCHR_FK" objectType="REF_CONSTRAINT" ownerName="STA"  replaceIfExists="false" >
+			<n0:source><![CDATA[ALTER TABLE "%USER_NAME%"."STA_CLASS" ADD CONSTRAINT "STA_CLSS_TCHR_FK" FOREIGN KEY ("USR_ID")
+	  REFERENCES "%USER_NAME%"."STA_USER" ("ID") ENABLE;]]></n0:source>
+		</n0:createOracleRefConstraint>
+	</changeSet>
+</databaseChangeLog>

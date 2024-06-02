@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+	<changeSet id="3b428d3e8cbc123ade4112a4137c76a252e06c1b" author="(STA)-Generated" failOnError="false"   runOnChange="false" runAlways="false"  >
+		<n0:createOracleJob objectName="MYAPP_EXT_JOBS" objectType="JOB" ownerName="STA"  replaceIfExists="false" >
+			<n0:source><![CDATA[
+BEGIN 
+dbms_credential.create_credential('MYAPP_EXT_JOBS', username=>'oracle', password=>'NULL', enabled=>TRUE, windows_domain=>NULL, comments=>NULL, connect_identifier=> NULL);
+COMMIT; 
+END; 
+/ ]]></n0:source>
+		</n0:createOracleJob>
+	</changeSet>
+</databaseChangeLog>
