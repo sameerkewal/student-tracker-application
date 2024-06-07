@@ -35,6 +35,24 @@ is
     return v_row;
   end f_get_usr_by_email;
 
+  function f_get_usr_id_by_email(pi_email sta_user.email%type) return sta_user.id%type
+  is
+      l_usr_id sta_user.id%type;
+      cursor c_usr_id(b_email sta_user.email%type)
+      is
+        select id
+        from   sta_user
+        where lower(email) = lower(pi_email)
+        ;
+  begin
+      open  c_usr_id(b_email => pi_email);
+      fetch c_usr_id into l_usr_id;
+      close c_usr_id;
+
+      return l_usr_id;
+  end f_get_usr_id_by_email;
+
+
 
 
   function is_sdnt_uk( pi_id         in sta_user.id%type

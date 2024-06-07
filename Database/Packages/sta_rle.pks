@@ -29,6 +29,12 @@ is
     -- And Ofcourse Admins can edit all the students with no restrictions
     function check_read_only( pi_username sta_user.email%type
                             , pi_clss_id sta_class.id%type
-                            , pi_action varchar2
+                            , pi_action varchar2 default null
                             )return boolean;
+
+    function f_does_tchr_give_crse_in_clss( pi_username  sta_user.email%type
+                                           , pi_tst_id  sta_test.id%type
+                                           , pi_sdnt_id  sta_user.id%type
+                                            )
+    return boolean;
 end sta_rle;

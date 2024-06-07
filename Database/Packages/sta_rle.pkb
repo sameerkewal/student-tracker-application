@@ -140,6 +140,48 @@ end check_is_teacher_and_admin;
   end check_read_only;
 
 
+function f_does_tchr_give_crse_in_clss(pi_username sta_user.email%type
+, pi_tst_id sta_test.id%type
+, pi_sdnt_id sta_user.id%type
+)
+    return boolean
+    is
+    l_rtn_val number;
+    cursor c_tchr_crse_clss_chk(
+          b_username sta_user.email%type
+        , b_tst_id sta_test.id%type
+        , b_sdnt_id sta_user.id%type
+        )
+        is
+        with crse as (select crse_id as crse_id
+                      from sta_test
+                      where id = b_tst_id
+                      )
+           , clss as (select clss_id
+                      from sta_vw_student
+                      where id = b_sdnt_id
+                      )
+        select 1
+        from sta_course_class_teacher crse_clss_tchr
+        join sta_vw_teacher tchr on crse_clss_tchr.usr_id = tchr.id
+        join crse crse on crse.crse_id = crse_clss_tchr.crse_id
+        join clss clss on clss.clss_id = crse_clss_tchr.clss_id
+        where lower(email) = lower(b_username)
+    ;
+
+    begin
+        open  c_tchr_crse_clss_chk(b_username => pi_username, b_tst_id => pi_tst_id, b_sdnt_id => pi_sdnt_id);
+        fetch c_tchr_crse_clss_chk into l_rtn_val;
+        close c_tchr_crse_clss_chk;
+
+        if l_rtn_val = 1 then
+            return true;
+        else
+            return false;
+        end if;
+    end f_does_tchr_give_crse_in_clss;
+
+
 
 
 

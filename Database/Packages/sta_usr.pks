@@ -20,7 +20,8 @@ is
     -- functions and procedures
     function f_get_usr(pi_id sta_user.id%type) return sta_user%rowtype;
     function f_get_usr_by_email(pi_email sta_user.email%type) return sta_user%rowtype;
-    
+    function f_get_usr_id_by_email(pi_email sta_user.email%type) return sta_user.id%type;
+
     procedure p_soft_delete_usr(pi_id sta_user.id%type);
 
     procedure p_upsert_tchr( pi_id                  sta_user.id%type  
