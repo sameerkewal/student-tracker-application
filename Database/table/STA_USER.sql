@@ -29,5 +29,5 @@ create table sta_user
     origin_school       varchar2(80)
 )
 /
-
+alter table sta_user add in_schoolyear varchar2(9);
 

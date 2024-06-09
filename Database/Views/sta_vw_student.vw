@@ -11,6 +11,7 @@ as
     ,         usr.address2
     ,         usr.phone_number1
     ,         usr.clss_id
+    ,         usr.in_schoolyear
     ,         grde.id         grde_id
     ,         usr.ctkr_id
     ,         usr.gender
