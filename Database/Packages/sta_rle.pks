@@ -36,5 +36,5 @@ is
                                            , pi_tst_id  sta_test.id%type
                                            , pi_sdnt_id  sta_user.id%type
                                             )
-    return boolean;
+    return varchar2;
 end sta_rle;

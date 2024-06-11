@@ -16,6 +16,6 @@ as
         join   sta_user_role usr_rle on usr.id = usr_rle.usr_id
         join   sta_role rle on usr_rle.rle_id = rle.id
         where  lower(rle.name) = lower('caretaker')
-        and    usr.deleted_flg = false
+        and    usr.deleted_flg = 'N'
     )
     select * from w_caretaker;

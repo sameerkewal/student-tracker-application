@@ -16,4 +16,5 @@ create or replace view sta_vw_result as
     join    sta_course crse on tst.crse_id = crse.id
     join    sta_semester smsr on tst.smsr_id = smsr.id
     join    sta_grade    grde on tst.grde_id = grde.id
+    where   usr_id in (select id from sta_vw_student)
 ;

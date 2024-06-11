@@ -199,7 +199,7 @@ is
         l_generated_name := 'Unknown Component Type';
     end case;
 
-    if pi_read_only then
+    if pi_read_only = 'Y' then
       l_generated_name := l_generated_name || ' - Read Only';
     end if;
      

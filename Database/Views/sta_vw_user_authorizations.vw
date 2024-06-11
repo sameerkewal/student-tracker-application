@@ -20,7 +20,7 @@ as
     join   sta_privilege                pve      on rle_pve.pve_id  = pve.id
     join   sta_authorization_privilege  auth_pve on auth_pve.pve_id = pve.id
     join   sta_authorization            auth     on auth.id         = auth_pve.auth_id
-    where  usr.deleted_flg = false
+    where  usr.deleted_flg = 'N'
 ;
 
 

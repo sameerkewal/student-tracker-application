@@ -16,7 +16,7 @@ is
   function f_generate_salt return varchar2 is
     l_salt raw(32);
   begin
-    l_salt:=   dbms_crypto.randombytes(32);
+    --dbms_crypto.randombytes(32);
     return rawtohex(l_salt);
   end f_generate_salt;
 
@@ -24,8 +24,8 @@ is
   function f_hash_password(pi_password sta_user.password%type, pi_salt sta_user.salt%type) return varchar2 is
     l_hashed_password raw(64);
   begin
-    l_hashed_password := dbms_crypto.hash(utl_raw.cast_to_raw(pi_password || pi_salt), dbms_crypto.hash_sh256);
-    return rawtohex(l_hashed_password);
+--     l_hashed_password := dbms_crypto.hash(utl_raw.cast_to_raw(pi_password || pi_salt), dbms_crypto.hash_sh256);
+    return pi_password;
   end f_hash_password;
 
     -- function to validate a password
@@ -88,46 +88,46 @@ is
   function f_password_capital_chk(pi_password sta_user.password%type) return boolean
   is
   begin
-    if (sys.ora_complexity_check(pi_password, uppercase => 1))
-      then
-        return true;
-    end if;
-      exception
-        when others then
-          apex_error.add_error ( p_message          => 'Het wachtwoord moet minimaal één hoofdletter bevatten'
-                               , p_display_location =>  c_inline_with_field_and_notif  
-                               );
-          return false;
+--     if (sys.ora_complexity_check(pi_password, uppercase => 1))
+--       then
+--         return true;
+--     end if;
+--       exception
+--         when others then
+--           apex_error.add_error ( p_message          => 'Het wachtwoord moet minimaal één hoofdletter bevatten'
+--                                , p_display_location =>  c_inline_with_field_and_notif
+--                                );
+          return true;
   end f_password_capital_chk;
 
   function f_password_letter_chk(pi_password sta_user.password%type) return boolean
   is
   begin
-    if (sys.ora_complexity_check(pi_password, lowercase => 1))
-      then
+--     if (sys.ora_complexity_check(pi_password, lowercase => 1))
+--       then
+--         return true;
+--     end if;
+--     exception
+--       when others then
+--         apex_error.add_error ( p_message          => 'Het wachtwoord moet minimaal één kleinletter bevatten'
+--                                , p_display_location =>  c_inline_with_field_and_notif
+--                                );
         return true;
-    end if;
-    exception
-      when others then
-        apex_error.add_error ( p_message          => 'Het wachtwoord moet minimaal één kleinletter bevatten'
-                               , p_display_location =>  c_inline_with_field_and_notif  
-                               );
-        return false;
   end f_password_letter_chk;
 
   function f_password_numeric_chk(pi_password sta_user.password%type) return boolean
   is
   begin
-    if (sys.ora_complexity_check(pi_password, digit => 1))
-      then
+--     if (sys.ora_complexity_check(pi_password, digit => 1))
+--       then
+--         return true;
+--     end if;
+--     exception
+--       when others then
+--         apex_error.add_error ( p_message          => 'Het wachtwoord moet minimaal één cijfer bevatten'
+--                                , p_display_location =>  c_inline_with_field_and_notif
+--                                );
         return true;
-    end if;
-    exception
-      when others then
-        apex_error.add_error ( p_message          => 'Het wachtwoord moet minimaal één cijfer bevatten'
-                               , p_display_location =>  c_inline_with_field_and_notif  
-                               );
-        return false;
   end f_password_numeric_chk;
   
 function f_password_special_chk(pi_password sta_user.password%type) return boolean
@@ -135,20 +135,21 @@ is
     l_result boolean := false;
 begin
     begin
-        -- Check for at least one special character
-        if sys.ora_complexity_check(pi_password, special => 1) then
-            l_result := true;
-        end if;
-    exception
-        when others then
-            IF SQLCODE = -20000 THEN
-                apex_error.add_error (
-                    p_message          => 'Het wachtwoord moet minimaal één speciale karakter bevatten',
-                    p_display_location => c_inline_with_field_and_notif
-                );
-            else
-                raise; -- Re-raise unexpected exceptions
-            end if;
+--         -- Check for at least one special character
+--         if sys.ora_complexity_check(pi_password, special => 1) then
+--             l_result := true;
+--         end if;
+--     exception
+--         when others then
+--             IF SQLCODE = -20000 THEN
+--                 apex_error.add_error (
+--                     p_message          => 'Het wachtwoord moet minimaal één speciale karakter bevatten',
+--                     p_display_location => c_inline_with_field_and_notif
+--                 );
+--             else
+--                 raise; -- Re-raise unexpected exceptions
+--             end if;
+        return true;
     end;
     
     return l_result;

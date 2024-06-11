@@ -144,7 +144,7 @@ function f_does_tchr_give_crse_in_clss(pi_username sta_user.email%type
                                      , pi_tst_id sta_test.id%type
                                      , pi_sdnt_id sta_user.id%type
                                         )
-    return boolean
+    return varchar2
     is
     l_rtn_val number;
     l_usr_type varchar2(20) := sta_rle.check_is_teacher_and_admin(sta_usr.f_get_usr_id_by_email(pi_username));
@@ -173,7 +173,7 @@ function f_does_tchr_give_crse_in_clss(pi_username sta_user.email%type
     begin
 
         if l_usr_type = 'ADMIN' or l_usr_type = 'TEACHER_ADMIN' then
-            return true;
+            return 'Y';
         end if;
 
         open  c_tchr_crse_clss_chk(b_username => pi_username, b_tst_id => pi_tst_id, b_sdnt_id => pi_sdnt_id);
@@ -181,9 +181,9 @@ function f_does_tchr_give_crse_in_clss(pi_username sta_user.email%type
         close c_tchr_crse_clss_chk;
 
         if l_rtn_val = 1 then
-            return true;
+            return 'Y';
         else
-            return false;
+            return 'N';
         end if;
     end f_does_tchr_give_crse_in_clss;
 

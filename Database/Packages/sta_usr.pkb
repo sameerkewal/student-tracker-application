@@ -508,7 +508,7 @@ is
     is
     begin
       update sta_user
-      set deleted_flg = true
+      set deleted_flg = 'Y'
       where id = pi_id;
     end p_soft_delete_usr;
 
