@@ -24,6 +24,7 @@
     <file url="file://$PROJECT_DIR$/Database/Views/sta_vw_teacher.vw" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/Views/sta_vw_user_authorizations.vw" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/index/STA_SEMESTER.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/index/sta_event.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/table/STA_ANNOUNCEMENT.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/table/STA_AUTHORIZATION.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/table/STA_AUTHORIZATION_PRIVILEGE.sql" dialect="Oracle" />
@@ -33,6 +34,7 @@
     <file url="file://$PROJECT_DIR$/Database/table/STA_USER.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/table/STA_USER_ROLE.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/table/sta_course_class_teacher.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/table/sta_events.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/table/sta_student_remark.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/table/start.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/Database/triggers/sta_anmt_trg.trg" dialect="Oracle" />

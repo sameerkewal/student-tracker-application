@@ -25,5 +25,6 @@ as
     join      sta_role rle on usr_rle.rle_id = rle.id
     where     lower(rle.name) = lower('student')
     and       usr.deleted_flg = 'N'
+    order by usr.last_name asc
     ;
 
