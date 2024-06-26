@@ -15,6 +15,7 @@ as
     ,         grde.id         grde_id
     ,         usr.ctkr_id
     ,         usr.gender
+    ,         usr.graduated_flg
     ,         usr.registration_year
     ,         usr.deregistration_year
     ,         usr.origin_school

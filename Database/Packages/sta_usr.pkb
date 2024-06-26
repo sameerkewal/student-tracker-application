@@ -303,6 +303,7 @@ is
                             , pi_registration_year   sta_user.registration_year%type
                             , pi_deregistration_year sta_user.deregistration_year%type
                             , pi_origin_school       sta_user.origin_school%type
+                            , pi_graduated_flg       sta_user.graduated_flg%type
                             , pi_rle_id              sta_role.id%type
                             )
       is
@@ -322,6 +323,7 @@ is
           , registration_year
           , deregistration_year
           , origin_school
+          , graduated_flg
           )
           values
           (
@@ -337,6 +339,7 @@ is
           , pi_registration_year
           , pi_deregistration_year
           , pi_origin_school
+          , pi_graduated_flg
           )
           returning id into l_usr_id;
 
@@ -366,6 +369,7 @@ is
             , registration_year   = pi_registration_year
             , deregistration_year = pi_deregistration_year
             , origin_school       = pi_origin_school
+            , graduated_flg       = pi_graduated_flg
           where id = pi_id;
 
           upsert_remarks(pi_usr_id => pi_id, pi_remarks => pi_remarks);

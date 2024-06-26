@@ -55,6 +55,7 @@ is
                             , pi_registration_year   sta_user.registration_year%type
                             , pi_deregistration_year sta_user.deregistration_year%type
                             , pi_origin_school       sta_user.origin_school%type
+                            , pi_graduated_flg       sta_user.graduated_flg%type
                             , pi_rle_id              sta_role.id%type
                             );
 
