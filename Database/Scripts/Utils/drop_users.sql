@@ -21,6 +21,11 @@ delete from sta_class;
 delete from sta_user
 where  clss_id is not null;
 
+
+delete from sta_student_test;
+
+
+
 commit;
 
 delete from sta_user;
@@ -51,8 +56,13 @@ from    STA_VW_CARETAKER
 ;
 
 
+select  *
+from    sta_user;
 
 
+delete from sta_user;
+
+delete from sta_course_class_teacher;
 
 --delete all students
 delete from sta_user_role

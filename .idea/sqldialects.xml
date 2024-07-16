@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/Database/Packages/ait67_one_report.pkb" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/Packages/ait67_one_report.pks" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/Packages/ait67_one_report_macro.pkb" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/Packages/ait67_one_report_macro.pks" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/Packages/alt_sta_app_security/sta_app_security.pkb" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/Packages/sta_app_security.pkb" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/Packages/sta_app_security.pks" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/Packages/sta_audit.pkb" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/Packages/sta_audit.pks" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/Packages/sta_auth.pkb" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/Packages/sta_crse.pkb" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/Packages/sta_crse_clss_tchr.pks" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/Packages/sta_rle.pkb" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/Packages/sta_rle.pks" dialect="Oracle" />
@@ -14,6 +21,8 @@
     <file url="file://$PROJECT_DIR$/Database/Packages/sta_sypa.pks" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/Packages/sta_usr.pkb" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/Packages/sta_usr.pks" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/Scripts/Data/sta_admin.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/Scripts/Data/sta_super_admin.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/Scripts/Data/start.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/Database/Scripts/Utils/drop_users.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/Scripts/Utils/ins_students.sql" dialect="Oracle" />
@@ -33,12 +42,28 @@
     <file url="file://$PROJECT_DIR$/Database/table/STA_TEST.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/table/STA_USER.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/table/STA_USER_ROLE.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/table/audit tables/sta_class_audit.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/table/audit tables/sta_course_audit.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/table/audit tables/sta_event_audit.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/table/audit tables/sta_grade_audit.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/table/audit tables/sta_semester_audit.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/table/audit tables/sta_student_audit.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/table/audit tables/sta_student_test_audit.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/table/audit tables/sta_teacher_audit.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/table/audit tables/sta_test_audit.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/table/sta_course_class_teacher.sql" dialect="Oracle" />
-    <file url="file://$PROJECT_DIR$/Database/table/sta_events.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/table/sta_event.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/table/sta_student_remark.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/table/start.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/Database/triggers/sta_anmt_trg.trg" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/triggers/sta_class_audit.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/triggers/sta_event_audit.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/triggers/sta_grade_audit.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/Database/triggers/sta_sdnt_rmk_trg.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/triggers/sta_semester_audit.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/triggers/sta_student_audit.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/triggers/sta_student_test_audit.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/Database/triggers/sta_test_audit.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/data/STA_ANNOUNCEMENT.sql" dialect="GenericSQL" />
   </component>
 </project>

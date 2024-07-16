@@ -100,13 +100,184 @@ is
                           ,b_id         => pi_id
                           );
     fetch c_uk_student_chk into l_rslt_uk_student_chk;
+    close c_uk_student_chk;
      if l_rslt_uk_student_chk = 1 then
       return false;
     else
       return true;
     end if;
-    close c_uk_student_chk;    
   end;
+
+    procedure p_log_tchr_action( pi_id                  sta_user.id%type
+                               , pi_first_name          sta_user.first_name%type
+                               , pi_last_name           sta_user.last_name%type
+                               , pi_address1            sta_user.address1%type
+                               , pi_address2            sta_user.address2%type
+                               , pi_phone_number1       sta_user.phone_number1%type
+                               , pi_phone_number2       sta_user.phone_number2%type
+                               , pi_email               sta_user.email%type
+                               , pi_password            sta_user.password%type
+                               , pi_rle_id              sta_role.id%type
+                               , pi_is_admin            boolean
+                               , pi_crse_clss_tchr_tab  sta_crse_clss_tchr.t_crse_clss_tchr_tab
+                               , pi_actie               varchar2
+                               )
+    is
+--         pragma autonomous_transaction;
+        cursor c_get_crse(b_id in sta_course.id%type)
+        is
+            select name
+            from   sta_course
+            where  id = b_id
+        ;
+
+        cursor c_get_clss(b_ids in varchar2)
+        is
+            select  listagg(name, ', ') within group (order by name asc)
+            from    sta_class
+            where   id in (select column_value from table(apex_string.split(b_ids, ':')));
+
+        cursor c_crse_clss is
+        with w_crse_clss as(
+                            select crse.name  as crse_name
+                            ,      listagg(clss.name, ', ') within group (order by crse.name) as clsses
+                            from   sta_course_class_teacher crse_clss_tchr
+                            join   sta_class clss          on crse_clss_tchr.clss_id = clss.id
+                            join   sta_course crse         on crse_clss_tchr.crse_id = crse.id
+                            where  crse_clss_tchr.usr_id = pi_id
+                            group by crse.name
+                          )
+        select listagg(crse_name || ' - ' || clsses, ' ') within group(order by crse_name asc)
+        from w_crse_clss
+        ;
+
+
+        l_crse               varchar2(4000);
+        l_clss               varchar2(4000);
+        l_crse_clss          varchar2(4000);
+        l_tchr               sta_user%rowtype;
+
+    begin
+      for i in 1..pi_crse_clss_tchr_tab.count loop
+        open  c_get_crse(b_id => pi_crse_clss_tchr_tab(i).crse_id);
+        fetch c_get_crse into l_crse;
+        close c_get_crse;
+
+        open  c_get_clss(b_ids => pi_crse_clss_tchr_tab(i).classes_ids);
+        fetch c_get_clss into l_clss;
+        close c_get_clss;
+
+        l_crse_clss := l_crse_clss || chr(13) || l_crse || ' - '|| l_clss;
+      end loop;
+
+      if  pi_actie = 'Toegevoegd' then
+
+          insert into sta_teacher_audit
+              ( voornaam
+              , achternaam
+              , hoofd_adres
+              , alternatief_adres
+              , hoofd_telefoonnummer
+              , alternatief_telefoonnummer
+              , email
+              , is_admin
+              , password
+              , courses
+              , actie
+              , actie_datum
+              , gedaan_door
+              )
+          values ( pi_first_name
+                 , pi_last_name
+                 , pi_address1
+                 , pi_address2
+                 , pi_phone_number1
+                 , pi_phone_number2
+                 , pi_email
+                 , pi_is_admin
+                 , null
+                 , l_crse_clss
+                 , pi_actie
+                 , sysdate
+                 , coalesce(regexp_substr(sys_context('userenv', 'client_identifier'), '^[^:]*'), user)
+                 );
+      elsif pi_actie = 'Gewijzigd' then
+           open  c_crse_clss;
+           fetch c_crse_clss into l_crse_clss;
+           close c_crse_clss;
+
+            insert into sta_teacher_audit
+              ( voornaam
+              , achternaam
+              , hoofd_adres
+              , alternatief_adres
+              , hoofd_telefoonnummer
+              , alternatief_telefoonnummer
+              , email
+              , is_admin
+              , password
+              , courses
+              , actie
+              , actie_datum
+              , gedaan_door
+              )
+          values ( pi_first_name
+                 , pi_last_name
+                 , pi_address1
+                 , pi_address2
+                 , pi_phone_number1
+                 , pi_phone_number2
+                 , pi_email
+                 , pi_is_admin
+                 , null
+                 , l_crse_clss
+                 , pi_actie
+                 , sysdate
+                 , coalesce(regexp_substr(sys_context('userenv', 'client_identifier'), '^[^:]*'), user)
+                 );
+      else
+           l_tchr := f_get_usr(pi_id);
+           open  c_crse_clss;
+           fetch c_crse_clss into l_crse_clss;
+           close c_crse_clss;
+
+            insert into sta_teacher_audit
+              ( voornaam
+              , achternaam
+              , hoofd_adres
+              , alternatief_adres
+              , hoofd_telefoonnummer
+              , alternatief_telefoonnummer
+              , email
+              , is_admin
+              , password
+              , courses
+              , actie
+              , actie_datum
+              , gedaan_door
+              )
+          values ( l_tchr.first_name
+                 , l_tchr.last_name
+                 , l_tchr.address1
+                 , l_tchr.address2
+                 , l_tchr.phone_number1
+                 , l_tchr.phone_number2
+                 , l_tchr.email
+                 , case when sta_rle.check_is_teacher_and_admin(pi_id) = 'TEACHER_ADMIN' then 'TRUE' else 'FALSE' end
+                 , null
+                 , l_crse_clss
+                 , pi_actie
+                 , sysdate
+                 , coalesce(regexp_substr(sys_context('userenv', 'client_identifier'), '^[^:]*'), user)
+                 );
+      end if;
+      commit;
+      exception
+        when others then
+        -- Handle any exceptions here
+        rollback;
+        raise;
+    end p_log_tchr_action;
 
     procedure p_upsert_tchr( pi_id            sta_user.id%type  
                            , pi_first_name    sta_user.first_name%type     
@@ -195,6 +366,22 @@ is
                                                   , pi_crse_clss_tchr_tab => pi_crse_clss_tchr_tab
                                                   );
 
+
+           p_log_tchr_action(pi_id                => pi_id
+                          , pi_first_name         => pi_first_name
+                          , pi_last_name          => pi_last_name
+                          , pi_address1           => pi_address1
+                          , pi_address2           => pi_address2
+                          , pi_phone_number1      => pi_phone_number1
+                          , pi_phone_number2      => pi_phone_number2
+                          , pi_email              => pi_email
+                          , pi_password           => pi_password
+                          , pi_rle_id             => pi_rle_id
+                          , pi_is_admin           => pi_is_admin
+                          , pi_crse_clss_tchr_tab => pi_crse_clss_tchr_tab
+                          , pi_actie              => 'Toegevoegd'
+           );
+
         else
         --
         -- generate salt but only if password meets requirements
@@ -239,6 +426,21 @@ is
             , sta_rle.f_get_rle_id(pi_name => 'admin')
             );
           end if;
+
+          p_log_tchr_action(pi_id                => pi_id
+               , pi_first_name         => pi_first_name
+               , pi_last_name          => pi_last_name
+               , pi_address1           => pi_address1
+               , pi_address2           => pi_address2
+               , pi_phone_number1      => pi_phone_number1
+               , pi_phone_number2      => pi_phone_number2
+               , pi_email              => pi_email
+               , pi_password           => pi_password
+               , pi_rle_id             => pi_rle_id
+               , pi_is_admin           => pi_is_admin
+               , pi_crse_clss_tchr_tab => pi_crse_clss_tchr_tab
+               , pi_actie              => 'Gewijzigd'
+           );
         end if;
       end p_upsert_tchr;
 
@@ -506,8 +708,41 @@ is
       delete from sta_user where id = pi_id;
     end;
 
-    
+    procedure p_hard_delete_ctkr(pi_id sta_user.id%type)
+    is
+    begin
+        delete from sta_user_role where usr_id = pi_id;
+        delete from sta_user where id = pi_id;
+    end;
 
+    procedure p_soft_delete_tchr(pi_id sta_user.id%type)
+    is
+        -- Empty so we dont get reference to uninitialized collection error
+        l_crse_clss_tchr_tab sta_crse_clss_tchr.t_crse_clss_tchr_tab := sta_crse_clss_tchr.t_crse_clss_tchr_tab();
+    begin
+
+      update sta_user
+      set deleted_flg = 'Y'
+      where id = pi_id;
+
+      p_log_tchr_action(pi_id                => pi_id
+                     , pi_first_name         => null
+                     , pi_last_name          => null
+                     , pi_address1           => null
+                     , pi_address2           => null
+                     , pi_phone_number1      => null
+                     , pi_phone_number2      => null
+                     , pi_email              => null
+                     , pi_password           => null
+                     , pi_rle_id             => null
+                     , pi_is_admin           => null
+                     , pi_crse_clss_tchr_tab => l_crse_clss_tchr_tab
+                     , pi_actie              => 'Verwijderd'
+                    );
+    end p_soft_delete_tchr;
+
+
+    --Used For students
     procedure p_soft_delete_usr(pi_id sta_user.id%type)
     is
     begin

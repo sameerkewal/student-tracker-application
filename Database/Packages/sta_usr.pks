@@ -23,7 +23,11 @@ is
     function f_get_usr_id_by_email(pi_email sta_user.email%type) return sta_user.id%type;
     function f_get_name_by_email(pi_email sta_user.email%type) return varchar2;
 
+    -- Used for Students
     procedure p_soft_delete_usr(pi_id sta_user.id%type);
+
+    procedure p_soft_delete_tchr(pi_id sta_user.id%type);
+
 
     procedure p_upsert_tchr( pi_id                  sta_user.id%type  
                            , pi_first_name          sta_user.first_name%type     
@@ -71,6 +75,7 @@ is
 
     procedure p_hard_delete_tchr(pi_id sta_user.id%type);
     procedure p_hard_delete_sdnt(pi_id sta_user.id%type);
+    procedure p_hard_delete_ctkr(pi_id sta_user.id%type);
     function f_get_user_role(pi_usr_id sta_user.id%type) return r_rle_tab pipelined;
 
     -- Deletes multiple remarks based on a colon seperated string
